@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Error Budgets V0 — synthetic Lucas-readable monitoring artifact" />
+  <title>Error Budgets V0</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <div class="eyebrow">TECHNICAL PROGRAM MONITOR · SYNTHETIC PERFORMANCE DATA</div>
+        <h1>Error Budgets V0</h1>
+        <p class="subtitle">Current technical state of operation-level Error Budgets</p>
+      </div>
+      <div id="buildChip" class="build-chip" aria-live="polite">Build metadata loading…</div>
+    </div>
+    <div class="v0-guardrail">
+      <strong>V0 = Standard + Owners + Gaps + First Reproducible Output</strong>
+      <span>V0 does not mean every Error Budget is fully closed.</span>
+    </div>
+    <nav class="main-nav" aria-label="Primary">
+      <button data-route="overview" class="nav-button active">Overview</button>
+      <button data-route="operations" class="nav-button">Operations</button>
+      <button data-route="targets" class="nav-button">Improvement Targets</button>
+      <button data-route="changes" class="nav-button">Changes</button>
+      <button data-route="trust" class="nav-button">Trust &amp; Evidence</button>
+    </nav>
+  </header>
+
+  <main id="main" class="page-shell" tabindex="-1">
+    <div id="app" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>Synthetic prototype.</strong> First names / ownership context and dates are reused from the prior Notion prototype; performance numbers and evidence payloads are synthetic.</div>
+    <div class="footer-links">
+      <a href="https://github.com/ortiz-luis/rydberg-tweezer-ecosystem-map/tree/main/public/error-budgets-lucas-v0" target="_blank" rel="noopener">Open technical source</a>
+      <span>·</span>
+      <a href="./data.json" target="_blank" rel="noopener">Canonical demo JSON</a>
+    </div>
+  </footer>
+
+  <div id="modalBackdrop" class="modal-backdrop hidden" aria-hidden="true">
+    <section id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button id="modalClose" class="modal-close" aria-label="Close">×</button>
+      <div id="modalContent"></div>
+    </section>
+  </div>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>

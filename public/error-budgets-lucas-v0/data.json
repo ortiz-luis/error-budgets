@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "title": "Error Budgets V0",
+    "subtitle": "Current technical state of operation-level Error Budgets",
+    "generated_at": "2026-08-26T21:00:00+02:00",
+    "data_status": "SYNTHETIC PERFORMANCE DATA",
+    "context_note": "First names, ownership context and evidence dates are reused from the prior Notion prototype; performance values and evidence payloads remain synthetic.",
+    "schema_version": "eb-v0-demo-2",
+    "calculation_version": "synthetic-additive-inspectable-v1",
+    "data_revision": "EBV0-LUCAS-2026-08-26-A"
+  },
+  "program": {
+    "definition": "Standard + Owners + Gaps + First Reproducible Output",
+    "guardrail": "V0 does not mean every Error Budget is fully closed.",
+    "scope_count": 6,
+    "runnable_pilots": 2,
+    "quantification_pending": 4,
+    "ranked_gaps": 10,
+    "build_state": "computed at deploy",
+    "monthly_sync": "Last Thursday of each month",
+    "notion_reference_next_review": "2026-08-28"
+  },
+  "operations": [
+    {
+      "id": "1q",
+      "name": "1Q Gates",
+      "kpi": "Gate fidelity",
+      "kpi_symbol": "F₁Q",
+      "maturity": "RUNNABLE PILOT",
+      "technical_state": "WATCH",
+      "owner": "Francisco",
+      "reviewer": "Performance reviewer · name not explicit in Notion",
+      "last_evidence_date": "2026-08-20",
+      "last_evidence": "Lifetime & phase noise",
+      "last_accepted": "2026-08-20",
+      "operating_point": "Synthetic nominal single-qubit point A · OP-SYN-01",
+      "fidelity": 0.9968,
+      "total_error": 0.0032,
+      "uncertainty": 0.00018,
+      "known_share": 0.76,
+      "unknown_share": 0.24,
+      "current_spec": null,
+      "future_target": null,
+      "composition_method": "additive synthetic accounting — inspectability only",
+      "main_gap": "Close the 24% unknown residual without hiding it.",
+      "next_action": "Close unknown contributors",
+      "main_limitation": "Phase / frequency noise",
+      "knowledge_gap": "24% remains Unknown / Unassigned",
+      "technical_source": "data.json → operation 1Q",
+      "contributors": [
+        {"id":"EB.1Q.PHASE_FREQ","name":"Phase / frequency noise","absolute":0.0008,"share":0.25,"uncertainty":0.00008,"evidence_class":"Simulated","owner":"Francisco","status":"PARTIAL","confidence":"MEDIUM","method":"phase-noise synthetic model v1","evidence_date":"2026-08-20","gap":"Uncertainty model and PSD-to-gate mapping remain provisional","next_action":"Characterize phase-noise spectrum"},
+        {"id":"EB.1Q.INTENSITY","name":"Intensity / amplitude noise","absolute":0.00048,"share":0.15,"uncertainty":0.00005,"evidence_class":"Measured","owner":"Francisco","status":"PARTIAL","confidence":"HIGH","method":"measured-like synthetic beam map v1","evidence_date":"2026-08-20","gap":"Operating-point dependence not yet mapped","next_action":"Map contribution versus operating point"},
+        {"id":"EB.1Q.BFIELD","name":"Magnetic-field dephasing","absolute":0.000384,"share":0.12,"uncertainty":0.00006,"evidence_class":"Estimated","owner":"Selim","status":"PARTIAL","confidence":"LOW","method":"Ramsey sensitivity estimate v1","evidence_date":"2026-08-20","gap":"B-field fluctuations mapping incomplete","next_action":"Run Ramsey sensitivity sweep"},
+        {"id":"EB.1Q.THERMAL","name":"Thermal / Doppler sampling","absolute":0.00032,"share":0.1,"uncertainty":0.00005,"evidence_class":"Simulated","owner":"Owner pending","status":"PARTIAL","confidence":"MEDIUM","method":"thermal sampling synthetic v1","evidence_date":"2026-08-20","gap":"Temperature dependence only sampled at one operating point","next_action":"Evaluate temperature dependence"},
+        {"id":"EB.1Q.SCATTER","name":"Spontaneous scattering","absolute":0.000256,"share":0.08,"uncertainty":0.00003,"evidence_class":"Literature","owner":"Owner pending","status":"PARTIAL","confidence":"MEDIUM","method":"literature-like rate model v1","evidence_date":"2026-08-20","gap":"Rate not independently characterized in this demo","next_action":"Replace with explicit synthetic rate model"},
+        {"id":"EB.1Q.TRANSIENT","name":"Control transient","absolute":0.000192,"share":0.06,"uncertainty":0.00004,"evidence_class":"Estimated","owner":"Owner pending","status":"PARTIAL","confidence":"LOW","method":"control transient estimate v1","evidence_date":"2026-08-20","gap":"Transient model is coarse","next_action":"Refine transient model"},
+        {"id":"EB.1Q.UNKNOWN","name":"Unknown / Unassigned","absolute":0.000768,"share":0.24,"uncertainty":null,"evidence_class":"Unknown","owner":"Program DRI","status":"GAP","confidence":"LOW","method":"residual accounting","evidence_date":"2026-08-20","gap":"24% of total synthetic 1Q error is intentionally unattributed","next_action":"Assign evidence or keep explicit"}
+      ],
+      "changes": [
+        "20 Aug — Lifetime & phase-noise evidence registered in the Notion program view.",
+        "Unknown remains explicit at 24% of the synthetic operation error.",
+        "No future target is shown because no validated target is available in the source material."
+      ]
+    },
+    {
+      "id": "2q",
+      "name": "2Q Gates",
+      "kpi": "Gate fidelity",
+      "kpi_symbol": "F₂Q",
+      "maturity": "RUNNABLE PILOT",
+      "technical_state": "WATCH",
+      "owner": "Selim",
+      "reviewer": "Performance reviewer · name not explicit in Notion",
+      "last_evidence_date": "2026-08-18",
+      "last_evidence": "CZ gate characterization",
+      "last_accepted": "2026-08-18",
+      "operating_point": "Synthetic nominal Rydberg point A · OP-SYN-2Q-A",
+      "fidelity": 0.982,
+      "total_error": 0.018,
+      "uncertainty": 0.0012,
+      "known_share": 0.9,
+      "unknown_share": 0.1,
+      "current_spec": null,
+      "future_target": null,
+      "composition_method": "additive synthetic accounting — inspectability only",
+      "main_gap": "Reduce and attribute the remaining 10% unknown residual while validating high-impact partial contributors.",
+      "next_action": "Crosstalk & leakage",
+      "main_limitation": "Rydberg-state decay",
+      "knowledge_gap": "2Q crosstalk quantification and leakage remain open",
+      "technical_source": "data.json → operation 2Q",
+      "contributors": [
+        {"id":"EB.2Q.RYDBERG_DECAY","name":"Rydberg-state decay","absolute":0.00504,"share":0.28,"uncertainty":0.0006,"evidence_class":"Simulated","owner":"Francisco","status":"PARTIAL","confidence":"MEDIUM","method":"synthetic lifetime model v1","evidence_date":"2026-08-18","gap":"Synthetic lifetime sensitivity not independently checked","next_action":"Run a synthetic lifetime sweep"},
+        {"id":"EB.2Q.THERMAL","name":"Thermal / Doppler motion","absolute":0.00324,"share":0.18,"uncertainty":0.00045,"evidence_class":"Simulated","owner":"Owner pending","status":"PARTIAL","confidence":"MEDIUM","method":"synthetic temperature model v1","evidence_date":"2026-08-18","gap":"Temperature dependence sampled at one operating point","next_action":"Evaluate three synthetic temperatures"},
+        {"id":"EB.2Q.LASER_PHASE","name":"Laser phase / frequency noise","absolute":0.00252,"share":0.14,"uncertainty":0.00038,"evidence_class":"Estimated","owner":"Francisco","status":"PARTIAL","confidence":"LOW","method":"PSD-like synthetic estimate v1","evidence_date":"2026-08-18","gap":"No synthetic PSD-to-gate cross-check","next_action":"Compare time-domain and PSD-derived estimates"},
+        {"id":"EB.2Q.BLOCKADE","name":"Blockade imperfection","absolute":0.00216,"share":0.12,"uncertainty":0.00025,"evidence_class":"Simulated","owner":"Owner pending","status":"MODELLED","confidence":"MEDIUM","method":"synthetic interaction model v1","evidence_date":"2026-08-18","gap":"No blocking gap in the synthetic pilot","next_action":"Monitor interaction model"},
+        {"id":"EB.2Q.SCATTER","name":"Spontaneous scattering","absolute":0.00144,"share":0.08,"uncertainty":0.00022,"evidence_class":"Literature","owner":"Owner pending","status":"PARTIAL","confidence":"MEDIUM","method":"literature-like synthetic rate v1","evidence_date":"2026-08-18","gap":"Rate is literature-like rather than independently characterized","next_action":"Replace with an explicit synthetic rate model"},
+        {"id":"EB.2Q.PULSE","name":"Intensity / pulse-shape error","absolute":0.00108,"share":0.06,"uncertainty":0.0002,"evidence_class":"Estimated","owner":"Francisco","status":"PARTIAL","confidence":"LOW","method":"coarse pulse-shape estimate v1","evidence_date":"2026-08-18","gap":"Synthetic pulse-shape model is coarse","next_action":"Run a pulse-amplitude sensitivity scan"},
+        {"id":"EB.2Q.CROSSTALK","name":"Addressing / crosstalk","absolute":0.00072,"share":0.04,"uncertainty":0.00018,"evidence_class":"Estimated","owner":"Selim","status":"PARTIAL","confidence":"LOW","method":"synthetic crosstalk estimate v1","evidence_date":"2026-08-18","gap":"2Q crosstalk quantification remains open","next_action":"Evaluate a synthetic separation sweep"},
+        {"id":"EB.2Q.UNKNOWN","name":"Unknown / Unassigned","absolute":0.0018,"share":0.1,"uncertainty":null,"evidence_class":"Unknown","owner":"Program DRI","status":"GAP","confidence":"LOW","method":"residual accounting","evidence_date":"2026-08-18","gap":"10% of total synthetic 2Q error is intentionally unattributed","next_action":"Assign the residual to a testable hypothesis or keep it explicitly unknown"}
+      ],
+      "changes": [
+        "18 Aug — CZ gate characterization registered as the latest evidence in the Notion program view.",
+        "Unknown remains explicit at 10% of the synthetic operation error.",
+        "2Q crosstalk and leakage remain program gaps; no unsupported closure is displayed."
+      ]
+    },
+    {"id":"movement","name":"Atom Movement / Shuttling","kpi":"Transfer fidelity","kpi_symbol":"Ftransfer","maturity":"QUANTIFICATION PENDING","technical_state":"INCOMPLETE","owner":"Julien","reviewer":"Pauline · contributor/reviewer context from Notion","last_evidence_date":null,"last_evidence":"—","operating_point":"Not yet defined","fidelity":null,"total_error":null,"uncertainty":null,"known_share":null,"unknown_share":null,"current_spec":null,"future_target":null,"composition_method":"Not yet defined","main_gap":"Motional heating in transport","next_action":"Define experiments and performance metric","main_limitation":"Not yet quantified","knowledge_gap":"Heating / transfer loss / phase accumulation model not closed","required_inputs":["Transfer fidelity definition","Move-time / distance operating point","Heating and loss evidence","Mover/sitter context","Reviewer acceptance criteria"]},
+    {"id":"initialization","name":"State Preparation / Initialization","kpi":"Preparation fidelity","kpi_symbol":"Fprep","maturity":"QUANTIFICATION PENDING","technical_state":"INCOMPLETE","owner":"Pauline","reviewer":"TBD · Selim / Francisco / Yassir were provisional context in the validated scope","last_evidence_date":"2026-08-15","last_evidence":"Cooling & reset","operating_point":"Not yet normalized","fidelity":null,"total_error":null,"uncertainty":null,"known_share":null,"unknown_share":null,"current_spec":null,"future_target":null,"composition_method":"Not yet defined","main_gap":"State prep fidelity vs time / SPAM separation","next_action":"Improve SPAM separation","main_limitation":"Not yet quantified","knowledge_gap":"Preparation, measurement and correction terms still need separation","required_inputs":["Preparation KPI definition","Optical-pumping / reset evidence","Time dependence","SPAM separation contract","Assigned reviewer"]},
+    {"id":"readout","name":"Readout / SPAM","kpi":"Readout fidelity","kpi_symbol":"Freadout","maturity":"QUANTIFICATION PENDING","technical_state":"INCOMPLETE","owner":"Pauline","reviewer":"TBD","last_evidence_date":"2026-08-16","last_evidence":"SPAM tomography","operating_point":"Not yet normalized","fidelity":null,"total_error":null,"uncertainty":null,"known_share":null,"unknown_share":null,"current_spec":null,"future_target":null,"composition_method":"Not yet defined","main_gap":"SPAM characterization / confusion model","next_action":"Extend to full register","main_limitation":"Not yet quantified","knowledge_gap":"Readout confusion and apparent loss must be separated from preparation","required_inputs":["Confusion matrix / classification evidence","Loss/survival definition","Finite-sampling uncertainty","Register-size context","Reviewer acceptance criteria"]},
+    {"id":"addressability","name":"Addressability","kpi":"Crosstalk metric","kpi_symbol":"χXT","maturity":"QUANTIFICATION PENDING","technical_state":"INCOMPLETE","owner":"Julien","reviewer":"TBD","last_evidence_date":null,"last_evidence":"—","operating_point":"Not yet defined","fidelity":null,"total_error":null,"uncertainty":null,"known_share":null,"unknown_share":null,"current_spec":null,"future_target":null,"composition_method":"Not yet defined","main_gap":"Addressability beyond 50 sites","next_action":"Scalability study > 50 sites","main_limitation":"Not yet quantified","knowledge_gap":"Crosstalk metric and array-size dependence need validation","required_inputs":["Normalized crosstalk KPI","Neighbor-distance / array-size scan","Local/global addressing context","Owner/reviewer contract","Acceptance threshold"]}
+  ],
+  "top_gaps": [
+    {"rank":1,"gap":"2Q crosstalk quantification","operation":"2Q Gates","severity":"HIGH","owner":"Selim","intervention":"FOLLOW-UP","next_action":"Quantify crosstalk and leakage at the agreed operating point"},
+    {"rank":2,"gap":"Motional heating in transport","operation":"Movement","severity":"HIGH","owner":"Julien","intervention":"FOLLOW-UP","next_action":"Define experiments and movement KPI"},
+    {"rank":3,"gap":"Rydberg lifetime @ op. point","operation":"1Q / 2Q","severity":"HIGH","owner":"Francisco","intervention":"FOLLOW-UP","next_action":"Run lifetime sensitivity around the operating point"},
+    {"rank":4,"gap":"SPAM characterization","operation":"Readout","severity":"HIGH","owner":"Pauline","intervention":"FOLLOW-UP","next_action":"Close preparation/readout separation and confusion model"},
+    {"rank":5,"gap":"Addressability beyond 50 sites","operation":"Addressability","severity":"MEDIUM","owner":"Julien","intervention":"FOLLOW-UP","next_action":"Define scalability study and normalized crosstalk metric"},
+    {"rank":6,"gap":"Laser phase noise PSD","operation":"1Q / 2Q","severity":"MEDIUM","owner":"Francisco","intervention":"FOLLOW-UP","next_action":"Connect PSD evidence to gate sensitivity"},
+    {"rank":7,"gap":"B-field fluctuations mapping","operation":"All","severity":"MEDIUM","owner":"Selim","intervention":"FOLLOW-UP","next_action":"Map B-field noise to operation-level KPIs"},
+    {"rank":8,"gap":"Leakage quantification","operation":"2Q Gates","severity":"MEDIUM","owner":"Selim","intervention":"FOLLOW-UP","next_action":"Preserve leakage explicitly in the operational model"},
+    {"rank":9,"gap":"Intensity noise contribution","operation":"1Q / 2Q","severity":"LOW","owner":"Francisco","intervention":"FYI","next_action":"Extend operating-point coverage"},
+    {"rank":10,"gap":"State prep fidelity vs time","operation":"Initialization","severity":"LOW","owner":"Pauline","intervention":"FYI","next_action":"Measure/define time dependence"}
+  ],
+  "attention": [
+    {"level":"HIGH","title":"2Q crosstalk quantification","owner":"Selim","category":"FOLLOW-UP","message":"Open 2Q gap; leakage/crosstalk can change the operation-level interpretation."},
+    {"level":"HIGH","title":"Motional heating in transport","owner":"Julien","category":"FOLLOW-UP","message":"Movement is still unquantified; KPI and experiment contract are not closed."},
+    {"level":"HIGH","title":"Rydberg lifetime @ op. point","owner":"Francisco","category":"FOLLOW-UP","message":"High-impact lifetime sensitivity needs operating-point evidence."},
+    {"level":"HIGH","title":"SPAM characterization","owner":"Pauline","category":"FOLLOW-UP","message":"Readout/initialization separation remains incomplete."}
+  ],
+  "activity": [
+    {"date":"2026-08-26","actor":"System","operation":"Program","action":"Generated Lucas-readable synthetic portal","state":"LIVE"},
+    {"date":"2026-08-20","actor":"Francisco","operation":"1Q Gates","action":"Lifetime & phase-noise evidence recorded in Notion prototype","state":"PROGRAM RECORD"},
+    {"date":"2026-08-18","actor":"Selim","operation":"2Q Gates","action":"CZ gate characterization recorded in Notion prototype","state":"PROGRAM RECORD"},
+    {"date":"2026-08-16","actor":"Pauline","operation":"Readout / SPAM","action":"SPAM tomography recorded in Notion prototype","state":"PROGRAM RECORD"},
+    {"date":"2026-08-15","actor":"Pauline","operation":"Initialization","action":"Cooling & reset evidence recorded in Notion prototype","state":"PROGRAM RECORD"}
+  ],
+  "improvement_targets": [
+    {"priority":1,"operation":"2Q Gates","target":"Rydberg-state decay sensitivity","owner":"Francisco","evidence":"Simulated","achievable_gain":null,"confidence":"MEDIUM","why":"Largest quantified 2Q contributor in the synthetic pilot; lifetime @ operating point is a High program gap.","next_test":"Synthetic lifetime sweep"},
+    {"priority":2,"operation":"2Q Gates","target":"Crosstalk & leakage","owner":"Selim","evidence":"Estimated / missing","achievable_gain":null,"confidence":"LOW","why":"Program gap is high even though current attributed crosstalk share is small; structure may matter beyond scalar size.","next_test":"Separation sweep + leakage-preserving model"},
+    {"priority":3,"operation":"1Q / 2Q","target":"Laser phase noise PSD → gate sensitivity","owner":"Francisco","evidence":"Simulated / Estimated","achievable_gain":null,"confidence":"MEDIUM","why":"Cross-operation contributor and explicit Top Gap; requires PSD-to-operation mapping.","next_test":"Cross-check time-domain and spectral estimates"},
+    {"priority":4,"operation":"Movement","target":"Motional heating in transport","owner":"Julien","evidence":"Not yet normalized","achievable_gain":null,"confidence":"LOW","why":"A high program gap blocks quantitative budgeting for movement.","next_test":"Define transfer KPI and movement evidence contract"},
+    {"priority":5,"operation":"Readout / Initialization","target":"SPAM separation","owner":"Pauline","evidence":"Program record exists","achievable_gain":null,"confidence":"LOW","why":"Preparation and measurement errors must be separated before meaningful attribution.","next_test":"Confusion/preparation decomposition"}
+  ],
+  "glossary": [
+    {"term":"Infidelity (ε)","definition":"1 − Fidelity. Operation error shown as a probability and, where useful, as %."},
+    {"term":"Coherent error","definition":"Systematic unitary error, for example detuning or over-rotation."},
+    {"term":"Incoherent error","definition":"Stochastic degradation such as dephasing, scattering or loss."},
+    {"term":"SPAM","definition":"State Preparation And Measurement errors."},
+    {"term":"Crosstalk","definition":"Unintended effect on neighboring qubits/sites/channels."},
+    {"term":"Leakage","definition":"Population outside the computational space; should not be silently collapsed into a scalar depolarizing error."},
+    {"term":"Doppler / Thermal","definition":"Error mechanisms induced by velocity/temperature distributions and motion."},
+    {"term":"PSD","definition":"Power Spectral Density; spectral representation of noise used to connect noise to operation sensitivity."},
+    {"term":"Residual","definition":"Unexplained difference between observed KPI and predicted/attributed KPI; stays visible as Unknown / Unassigned."},
+    {"term":"Achievable gain (Gᵢ)","definition":"Kcurrent − Kafter realistic mitigation i. More actionable than ranking only by present contributor size."}
+  ],
+  "maturity_framework": [
+    {"stage":"OBSERVED","question":"Is there a reproducible observable/evidence record?"},
+    {"stage":"MODELLED","question":"Is there a quantitative mapping to the local KPI?"},
+    {"stage":"CLOSED","question":"Do model and benchmark agree within accepted uncertainty/residual?"},
+    {"stage":"PROPAGATED","question":"Has the error channel been carried to relevant circuit/QEC context?"},
+    {"stage":"BUDGETED","question":"Is there a target derived from a higher-level KPI?"},
+    {"stage":"ACTIONABLE","question":"Is there a mitigation, predicted gain, owner and acceptance test?"},
+    {"stage":"VERIFIED","question":"Was the improvement executed and re-closed with new evidence?"}
+  ],
+  "source_chain": [
+    {"level":"P0 · Physical","examples":"temperature, phase/frequency PSD, power, detuning, T1/T2*, position, B-field"},
+    {"level":"P1 · Mechanism","examples":"Doppler, scattering, Rydberg decay, finite blockade, light shifts, dephasing, crosstalk"},
+    {"level":"P2 · Operational","examples":"Pauli/coherent rotation, leakage, atom loss, SPAM, move/idle error, correlated gate error"},
+    {"level":"P3 · Context / QEC","examples":"zone/site, mover/sitter, round, ancilla/data, erasure pattern, detector error"},
+    {"level":"P4 · System KPI","examples":"logical error per round, circuit success, throughput, time-to-solution, FT overhead"}
+  ]
+}
