@@ -1,0 +1,27 @@
+{
+  "schema_version": "eb-program-v0.2",
+  "title": "Error Budgets V0",
+  "subtitle": "Current technical state of operation-level Error Budgets",
+  "v0_definition": "Standard + Owners + Gaps + First Reproducible Output",
+  "v0_note": "Not every operation needs to be quantitatively closed for V0 to exist.",
+  "as_of": "2026-08-27",
+  "accepted_at": "2026-08-26",
+  "scientific_acceptance": "human-reviewed",
+  "demo_notice": "Synthetic performance values. Names and program roles are used only to make the prototype realistic.",
+  "operations": [
+    {"id":"1q","label":"1Q Gate","file":"data/operations/1q.json"},
+    {"id":"2q","label":"2Q Gate","file":"data/operations/2q.json"},
+    {"id":"movement","label":"Movement","file":"data/operations/movement.json"},
+    {"id":"state-prep","label":"State Prep","file":"data/operations/state-prep.json"},
+    {"id":"readout","label":"Readout","file":"data/operations/readout.json"},
+    {"id":"addressability","label":"Addressability","file":"data/operations/addressability.json"}
+  ],
+  "default_operation": "2q",
+  "pipeline_labels": [
+    "Characterization",
+    "Low-level model",
+    "Error mapping",
+    "Error Budget",
+    "Improvement target"
+  ]
+}

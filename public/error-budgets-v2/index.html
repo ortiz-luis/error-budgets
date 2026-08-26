@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Error Budgets V0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <div class="title-block">
+        <h1 id="programTitle">Error Budgets V0</h1>
+        <p id="programSubtitle">Current technical state of operation-level Error Budgets</p>
+      </div>
+      <div class="header-meta">
+        <span id="programAccepted">Accepted —</span>
+        <span class="dot">·</span>
+        <span id="programFreshness">updated —</span>
+        <span class="dot">·</span>
+        <span>Scientific acceptance: <strong id="programAcceptance">—</strong></span>
+        <span class="build-chip" id="buildChip">Build — · Git</span>
+      </div>
+    </header>
+
+    <section class="overview-row">
+      <div class="program-panel">
+        <div class="v0-strip">
+          <strong>V0 = <span id="v0Definition"></span></strong>
+          <span class="divider"></span>
+          <em id="v0Note"></em>
+        </div>
+        <div class="program-counters" id="programCounters"></div>
+      </div>
+      <aside class="attention-panel">
+        <h2>Needs attention now</h2>
+        <div id="attentionList"></div>
+      </aside>
+    </section>
+
+    <nav class="operation-tabs" id="operationTabs" aria-label="Operations"></nav>
+
+    <section class="hero-card" id="heroCard">
+      <div class="hero-title-row">
+        <h2 id="operationTitle">Loading…</h2>
+        <span class="status-pill" id="operationStatus"></span>
+      </div>
+
+      <div id="quantifiedView" class="hero-grid">
+        <section class="budget-visual">
+          <div class="stack-shell">
+            <div class="axis-label">Error contribution (%)</div>
+            <div class="axis-wrap">
+              <div class="axis-ticks" aria-hidden="true">
+                <span>100</span><span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
+              </div>
+              <div class="stack-bar" id="stackBar"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="metric-panel">
+          <div class="epsilon-line"><span class="epsilon-symbol">ε =</span><strong id="currentError">—</strong><span class="epsilon-unc" id="currentUncertainty"></span></div>
+          <div class="rule"></div>
+          <dl class="metric-list">
+            <div><dt>Spec / threshold</dt><dd id="specThreshold">—</dd></div>
+            <div><dt>Future target</dt><dd id="futureTarget">—</dd></div>
+            <div><dt>Δ since accepted</dt><dd id="deltaAccepted" class="good-text">—</dd></div>
+          </dl>
+          <div class="rule"></div>
+          <dl class="metric-list compact">
+            <div><dt>Known attribution</dt><dd id="knownPct" class="good-text">—</dd></div>
+            <div><dt>Unknown</dt><dd id="unknownPct">—</dd></div>
+          </dl>
+          <div class="composition-note">ⓘ <span id="compositionNote">Composition: demo accounting; real models may be non-additive.</span></div>
+        </section>
+
+        <aside class="trust-panel">
+          <h3><span class="shield">⬟</span> Trust <span id="trustStatus">—</span></h3>
+          <dl class="trust-list">
+            <div><dt>Evidence</dt><dd id="evidenceCoverage">—</dd></div>
+            <div><dt>Model confidence</dt><dd><span id="modelConfidence" class="confidence-chip">—</span></dd></div>
+            <div><dt>Scientific acceptance</dt><dd id="scientificAcceptance">—</dd></div>
+          </dl>
+          <div class="rule"></div>
+          <dl class="trust-list">
+            <div><dt>Owner</dt><dd id="ownerName">—</dd></div>
+            <div><dt>Reviewer</dt><dd id="reviewerName">—</dd></div>
+            <div><dt>Accepted</dt><dd id="acceptedDate">—</dd></div>
+            <div><dt>Latest live update</dt><dd id="liveDate">—</dd></div>
+          </dl>
+          <div class="rule"></div>
+          <dl class="trust-list target-row">
+            <div><dt>Main target</dt><dd id="mainTarget">—</dd></div>
+          </dl>
+          <p class="priority-note" id="priorityBasis"></p>
+        </aside>
+      </div>
+
+      <div id="partialView" class="partial-view" hidden>
+        <div>
+          <div class="partial-kicker">Quantification incomplete</div>
+          <h3 id="partialName">—</h3>
+          <p id="partialDescription"></p>
+        </div>
+        <dl class="partial-facts">
+          <div><dt>KPI</dt><dd id="partialKpi">—</dd></div>
+          <div><dt>Known attribution</dt><dd id="partialKnown">—</dd></div>
+          <div><dt>Unknown</dt><dd id="partialUnknown">—</dd></div>
+          <div><dt>Owner</dt><dd id="partialOwner">—</dd></div>
+          <div><dt>Reviewer</dt><dd id="partialReviewer">—</dd></div>
+          <div><dt>Main gap</dt><dd id="partialGap">—</dd></div>
+        </dl>
+      </div>
+
+      <div class="pipeline" id="pipeline"></div>
+      <button class="detail-button" id="detailButton" type="button">Open technical detail →</button>
+    </section>
+
+    <section class="technical-detail" id="technicalDetail" hidden>
+      <div class="detail-heading">
+        <div>
+          <div class="eyebrow">Technical detail</div>
+          <h2 id="detailTitle">—</h2>
+        </div>
+        <span class="source-contract" id="sourceContract"></span>
+      </div>
+      <div class="detail-grid">
+        <section class="detail-card">
+          <h3>Contributors</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Contributor</th><th>Share</th><th>Impact</th><th>Unc.</th><th>Owner</th><th>Confidence</th><th>Updated</th></tr></thead>
+              <tbody id="contributorRows"></tbody>
+            </table>
+          </div>
+        </section>
+        <aside class="detail-card">
+          <h3>Validity / provenance</h3>
+          <dl class="provenance-list" id="provenanceList"></dl>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <span id="demoNotice"></span>
+      <span>Data-driven static prototype · replace files in <code>data/operations/</code></span>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
