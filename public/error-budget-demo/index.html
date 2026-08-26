@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Synthetic Error Budget MVP</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#182230;--muted:#667085;--line:#e6e9ef;--accent:#5b4bdb;--ok:#16794a;--okbg:#eaf7ef;--warn:#9a6700;--warnbg:#fff4d6;--bad:#b42318;--badbg:#feeceb;--dark:#111827}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}header{background:var(--dark);color:#fff;padding:18px 26px}.head{max-width:1160px;margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center}.brand{font-weight:800}.demo{font-size:12px;color:#cdd3df}main{max-width:1160px;margin:28px auto;padding:0 18px 48px}.notice{background:#eef2ff;border:1px solid #d9defc;border-radius:12px;padding:12px 15px;color:#3f3a80;font-size:13px;margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 2px 10px rgba(24,34,48,.035)}.span8{grid-column:span 8}.span4{grid-column:span 4}.span7{grid-column:span 7}.span5{grid-column:span 5}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}h1{font-size:30px;margin:6px 0 3px}h2{font-size:19px;margin:6px 0 14px}.sub{color:var(--muted);font-size:13px}.kpirow{display:flex;gap:28px;flex-wrap:wrap;margin-top:18px}.kpi .value{font-size:35px;font-weight:850;line-height:1}.kpi .label{font-size:12px;color:var(--muted);margin-top:6px}.pill{display:inline-block;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:850}.PASS,.OK{background:var(--okbg);color:var(--ok)}.WATCH{background:var(--warnbg);color:var(--warn)}.FAIL,.BLOCKED{background:var(--badbg);color:var(--bad)}.meter{height:14px;background:#e9ecf2;border-radius:999px;overflow:hidden;margin:17px 0 7px}.meter>div{height:100%;background:linear-gradient(90deg,#5b4bdb,#7d6cf0);border-radius:999px}.rowline{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted)}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 7px;border-bottom:1px solid var(--line);vertical-align:middle}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}td{font-size:13px}.name{font-weight:750}.small{font-size:11px;color:var(--muted);margin-top:2px}.impactbar{min-width:95px;height:7px;background:#eceef4;border-radius:99px;overflow:hidden}.impactbar div{height:100%;background:var(--accent)}.gate{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.gate:last-child{border-bottom:0}.gate b{font-size:13px}.gate p{margin:3px 0 0;font-size:11px;color:var(--muted)}.action{padding:11px 0;border-bottom:1px solid var(--line)}.action:last-child{border-bottom:0}.action .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:8px;background:#eef2ff;color:#4f46b8;font-size:12px;font-weight:800;margin-right:8px}.action b{font-size:13px}.action p{font-size:11px;color:var(--muted);margin:4px 0 0 34px}.scenario{background:#f8fafc;border:1px dashed #cfd5df;border-radius:12px;padding:13px;margin-top:13px;font-size:12px}.scenario strong{font-size:17px}.trendwrap{height:170px;margin-top:10px}.trendwrap svg{width:100%;height:100%;overflow:visible}.axis{font-size:10px;fill:#7a8290}.linkbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.button{display:inline-block;text-decoration:none;background:#171a22;color:white;padding:8px 11px;border-radius:9px;font-size:12px;font-weight:700}.button.secondary{background:white;color:#343a46;border:1px solid var(--line)}footer{max-width:1160px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:11px}@media(max-width:850px){.span8,.span4,.span7,.span5{grid-column:1/-1}.head{align-items:flex-start;flex-direction:column}.kpirow{gap:20px}.tablewrap{overflow-x:auto}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="brand">Error Budgets · Technical Portal</div><div class="demo">Portable static MVP · GitHub today, GitLab next</div></div></header>
+<main>
+<div class="notice" id="disclaimer">Loading synthetic dataset…</div>
+<div class="grid">
+<section class="card span8">
+<div class="eyebrow">Current system state</div><h1 id="title">Synthetic Error Budget</h1><div class="sub" id="scope"></div>
+<div class="kpirow">
+<div class="kpi"><div class="value" id="fidelity">—</div><div class="label">Predicted fidelity</div></div>
+<div class="kpi"><div class="value" id="error">—</div><div class="label">Total error</div></div>
+<div class="kpi"><div class="value" id="headroom">—</div><div class="label">Remaining headroom</div></div>
+</div>
+<div class="meter"><div id="meter" style="width:0%"></div></div><div class="rowline"><span id="consumed"></span><span id="allowance"></span></div>
+<div class="linkbar"><a class="button" href="data.json" download>Download canonical JSON</a><a class="button secondary" href="#contributors">Inspect contributors</a></div>
+</section>
+<section class="card span4"><div class="eyebrow">Decision signal</div><h2>Budget status <span id="status" class="pill"></span></h2><div id="change" class="sub"></div><div class="scenario" id="scenario"></div><div class="small" style="margin-top:14px">Snapshot <b id="snapshot"></b><br>Generated <span id="generated"></span></div></section>
+<section class="card span7" id="contributors"><div class="eyebrow">Decomposition</div><h2>Where the error comes from</h2><div class="tablewrap"><table><thead><tr><th>Contributor</th><th>Impact</th><th>Relative</th><th>Uncertainty</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<section class="card span5"><div class="eyebrow">Trend</div><h2>Total error by monthly close</h2><div class="trendwrap"><svg id="trend" viewBox="0 0 420 160" preserveAspectRatio="none"></svg></div><div class="small">Dashed line = allowed error budget.</div></section>
+<section class="card span5"><div class="eyebrow">Review gates</div><h2>Can this state be trusted?</h2><div id="gates"></div></section>
+<section class="card span7"><div class="eyebrow">Top gaps → actions</div><h2>What should happen next?</h2><div id="actions"></div></section>
+</div>
+</main>
+<footer>This page is intentionally boring infrastructure: HTML + CSS + JavaScript + one JSON file. The Error Budget values are artificial. The same folder can be served by GitLab Pages without React, Vite or a backend.</footer>
+<script>
+const cls=s=>String(s).toUpperCase(); const f=n=>Number(n).toFixed(2);
+fetch('data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('data.json '+r.status);return r.json()}).then(d=>{
+ const b=d.budget, current=b.current_error_pp, allowed=b.allowed_error_pp, fidelity=100-current, head=allowed-current, used=current/allowed*100, delta=current-b.previous_error_pp;
+ document.title=d.meta.title+' · Error Budgets MVP'; document.querySelector('#disclaimer').textContent=d.meta.disclaimer;
+ document.querySelector('#title').textContent=d.meta.title; document.querySelector('#scope').textContent=d.meta.scope;
+ document.querySelector('#fidelity').textContent=f(fidelity)+'%'; document.querySelector('#error').textContent=f(current)+' pp'; document.querySelector('#headroom').textContent=f(head)+' pp';
+ document.querySelector('#meter').style.width=Math.min(100,used)+'%'; document.querySelector('#consumed').textContent=f(used)+'% of budget consumed'; document.querySelector('#allowance').textContent='Allowance '+f(allowed)+' pp';
+ const st=document.querySelector('#status');st.textContent=b.status;st.className='pill '+cls(b.status);
+ document.querySelector('#change').textContent='Since previous close: '+(delta>0?'+':'')+f(delta)+' pp error ('+(delta<0?'improvement':'degradation')+').'; document.querySelector('#snapshot').textContent=d.meta.snapshot;document.querySelector('#generated').textContent=d.meta.generated_at;
+ const max=Math.max(...d.contributors.map(x=>x.impact_pp)); document.querySelector('#rows').innerHTML=d.contributors.slice().sort((a,b)=>b.impact_pp-a.impact_pp).map(x=>`<tr><td><div class="name">${x.name}</div><div class="small">${x.id} · ${x.owner}<br>${x.evidence}</div></td><td><b>${f(x.impact_pp)} pp</b></td><td><div class="impactbar"><div style="width:${100*x.impact_pp/max}%"></div></div></td><td>± ${f(x.uncertainty_pp)}</td><td><span class="pill ${cls(x.status)}">${x.status}</span></td></tr>`).join('');
+ document.querySelector('#gates').innerHTML=d.gates.map(g=>`<div class="gate"><div><b>${g.name}</b><p>${g.note}</p></div><span class="pill ${cls(g.status)}">${g.status}</span></div>`).join('');
+ document.querySelector('#actions').innerHTML=d.actions.map(a=>`<div class="action"><span class="n">${a.priority}</span><b>${a.action}</b><p>${a.owner} · ${a.rationale}</p></div>`).join('');
+ const top=d.contributors.slice().sort((a,b)=>b.impact_pp-a.impact_pp)[0], improved=current-top.impact_pp*.30; document.querySelector('#scenario').innerHTML=`What-if: reduce <b>${top.name}</b> by 30%<br><strong>${f(improved)} pp</strong> total error → <strong>${f(100-improved)}%</strong> predicted fidelity.`;
+ drawTrend(d.history,allowed);
+}).catch(e=>{document.querySelector('#disclaimer').textContent='Could not load canonical data: '+e.message;document.querySelector('#disclaimer').style.background='#feeceb';});
+function drawTrend(hist,allowed){const svg=document.querySelector('#trend'),W=420,H=160,p=24,vals=hist.map(x=>x.error_pp).concat([allowed]),min=Math.min(...vals)-.08,max=Math.max(...vals)+.08,X=i=>p+i*(W-2*p)/(hist.length-1),Y=v=>H-p-(v-min)*(H-2*p)/(max-min);let s=`<line x1="${p}" y1="${Y(allowed)}" x2="${W-p}" y2="${Y(allowed)}" stroke="#9aa2af" stroke-dasharray="5 5"/><text class="axis" x="${W-p-56}" y="${Y(allowed)-6}">budget ${allowed.toFixed(2)}</text>`;s+=`<polyline fill="none" stroke="#5b4bdb" stroke-width="3" points="${hist.map((x,i)=>X(i)+','+Y(x.error_pp)).join(' ')}"/>`;hist.forEach((x,i)=>{s+=`<circle cx="${X(i)}" cy="${Y(x.error_pp)}" r="4" fill="#5b4bdb"/><text class="axis" text-anchor="middle" x="${X(i)}" y="${H-5}">${x.period}</text><text class="axis" text-anchor="middle" x="${X(i)}" y="${Y(x.error_pp)-8}">${x.error_pp.toFixed(2)}</text>`});svg.innerHTML=s}
+</script>
+</body></html>
