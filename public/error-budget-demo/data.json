@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Synthetic 1Q Error Budget",
+    "scope": "Demo QPU / operating point A",
+    "snapshot": "EB-DEMO-2026-08-26-01",
+    "generated_at": "2026-08-26T20:25:00+02:00",
+    "disclaimer": "Artificial demonstration data only. No Pasqal data is used."
+  },
+  "budget": {
+    "target_fidelity_pct": 99.0,
+    "allowed_error_pp": 1.0,
+    "current_error_pp": 0.91,
+    "previous_error_pp": 0.96,
+    "status": "WATCH"
+  },
+  "contributors": [
+    {"id":"EB-001","name":"Spontaneous emission","owner":"AMO","impact_pp":0.28,"uncertainty_pp":0.03,"status":"WATCH","evidence":"Synthetic characterization v3"},
+    {"id":"EB-002","name":"Phase noise","owner":"Controls","impact_pp":0.21,"uncertainty_pp":0.04,"status":"WATCH","evidence":"Synthetic phase-noise scan"},
+    {"id":"EB-003","name":"Intensity inhomogeneity","owner":"Calibration","impact_pp":0.17,"uncertainty_pp":0.03,"status":"OK","evidence":"Synthetic beam map"},
+    {"id":"EB-004","name":"SPAM","owner":"Readout","impact_pp":0.14,"uncertainty_pp":0.02,"status":"OK","evidence":"Synthetic SPAM benchmark"},
+    {"id":"EB-005","name":"Leakage","owner":"Rydberg","impact_pp":0.11,"uncertainty_pp":0.02,"status":"OK","evidence":"Synthetic leakage study"}
+  ],
+  "history": [
+    {"period":"Apr","error_pp":1.18},
+    {"period":"May","error_pp":1.09},
+    {"period":"Jun","error_pp":1.02},
+    {"period":"Jul","error_pp":0.96},
+    {"period":"Aug","error_pp":0.91}
+  ],
+  "gates": [
+    {"name":"Contribution schema","status":"PASS","note":"All required fields are present."},
+    {"name":"Evidence completeness","status":"PASS","note":"All five synthetic contributors have evidence references."},
+    {"name":"Total budget","status":"PASS","note":"Current error is below the 1.00 pp allowance."},
+    {"name":"Operating margin","status":"WATCH","note":"Only 0.09 pp of headroom remains."}
+  ],
+  "actions": [
+    {"priority":1,"action":"Reduce spontaneous-emission contribution","owner":"AMO","rationale":"Largest current contributor."},
+    {"priority":2,"action":"Characterize phase-noise sensitivity","owner":"Controls","rationale":"Second-largest contributor and largest uncertainty."}
+  ]
+}
