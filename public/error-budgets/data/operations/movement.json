@@ -7,35 +7,35 @@
   "icon": "MV",
   "status": "AT_RISK",
   "source_branch": "error-budgets-data/movement",
-  "current_error_pct": 11.5,
-  "uncertainty_error_pp": 0.6,
+  "current_error_pct": 12.8,
+  "uncertainty_error_pp": 0.7,
   "spec_error_pct": 0.5,
   "known_attribution_pct": 100,
   "live_at": "2026-08-27",
-  "snapshot_id": "SYN-MV-TEST-LOW-0002",
+  "snapshot_id": "SYN-MV-TEST-LOW-0003",
   "protocol": "Transport survival benchmark",
   "benchmark": "Atom survival through transport sequence",
   "metric_convention": "Fidelity = 1 − transport-associated loss/error",
   "measurement_chain": "Synthetic move sequence → survival/loss attribution",
-  "operating_point": "AOD transport and zone transfer · synthetic ingestion test",
-  "target_note": "pipeline ingestion test",
+  "operating_point": "AOD transport and zone transfer · synthetic ingestion test round 2",
+  "target_note": "pipeline autonomy test",
   "contributors": [
     {
       "name": "Transfer / recapture loss",
-      "share_pct": 39,
+      "share_pct": 40,
       "share_uncertainty_pct": 8,
-      "impact_error_pp": 4.485,
-      "uncertainty_pp": 0.34,
+      "impact_error_pp": 5.12,
+      "uncertainty_pp": 0.39,
       "evidence": "synthetic measured-like",
       "confidence": "HIGH",
       "owner": "Transport"
     },
     {
       "name": "AOD RF / trajectory imperfections",
-      "share_pct": 24,
+      "share_pct": 23,
       "share_uncertainty_pct": 6,
-      "impact_error_pp": 2.76,
-      "uncertainty_pp": 0.27,
+      "impact_error_pp": 2.944,
+      "uncertainty_pp": 0.3,
       "evidence": "synthetic hybrid",
       "confidence": "MEDIUM",
       "owner": "Control"
@@ -44,8 +44,8 @@
       "name": "Heating during motion",
       "share_pct": 18,
       "share_uncertainty_pct": 5,
-      "impact_error_pp": 2.07,
-      "uncertainty_pp": 0.24,
+      "impact_error_pp": 2.304,
+      "uncertainty_pp": 0.26,
       "evidence": "synthetic model",
       "confidence": "MEDIUM",
       "owner": "Cooling"
@@ -54,8 +54,8 @@
       "name": "Background vacuum loss",
       "share_pct": 11,
       "share_uncertainty_pct": 4,
-      "impact_error_pp": 1.265,
-      "uncertainty_pp": 0.2,
+      "impact_error_pp": 1.408,
+      "uncertainty_pp": 0.22,
       "evidence": "synthetic measured-like",
       "confidence": "MEDIUM",
       "owner": "Vacuum"
@@ -64,8 +64,8 @@
       "name": "Residual / other",
       "share_pct": 8,
       "share_uncertainty_pct": 4,
-      "impact_error_pp": 0.92,
-      "uncertainty_pp": 0.18,
+      "impact_error_pp": 1.024,
+      "uncertainty_pp": 0.19,
       "evidence": "synthetic residual",
       "confidence": "LOW",
       "owner": null
@@ -75,7 +75,7 @@
     {
       "title": "Bluvstein et al., Nature 649 (2026)",
       "url": "https://doi.org/10.1038/s41586-025-09848-5",
-      "note": "Movement-loss accounting structure anchor; low fidelity chosen intentionally for ingestion testing."
+      "note": "Movement-loss accounting structure anchor; fidelity intentionally low for autonomy testing."
     }
   ]
 }
