@@ -55,8 +55,10 @@ jobs:
           test -f dist/data/dashboard.json
           test -f dist/data/published_state.json
           test -f dist/schema/error-budget-publication.schema.json
+          test -f dist/share/index.html
           node dist/scripts/validate-publication.mjs dist/data/published_state.json
           ! grep -R "PRIVATE_SENTINEL_MUST_NEVER_BE_PUBLISHED" dist/data/published_state.json
+          ! grep -R "dashboard.json" dist/share/
           ! grep -R "Rydberg Tweezer Ecosystem Map" dist/index.html
 
       - name: Setup Pages
