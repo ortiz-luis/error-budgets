@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Error Budgets — Shared Executive View</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18202a;background:#f6f7f9}*{box-sizing:border-box}body{margin:0;background:#f6f7f9}.shell{max-width:1120px;margin:0 auto;padding:24px}.top{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:22px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin-bottom:7px}h1{font-size:26px;line-height:1.15;margin:0 0 7px}.subtitle{margin:0;color:#667085;font-size:14px;max-width:650px}.freshness{text-align:right;min-width:220px}.freshness strong{display:block;font-size:13px}.freshness span{display:block;color:#667085;font-size:12px;margin-top:4px}.state{display:inline-flex!important;align-items:center;gap:6px}.dot{width:8px;height:8px;border-radius:999px;background:#16a34a;display:inline-block}.dot.error{background:#dc2626}.panel{background:white;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}.head,.row{display:grid;grid-template-columns:2.1fr 1.3fr 1fr 1fr 1fr;gap:16px;align-items:center}.head{padding:11px 18px;background:#f8fafc;border-bottom:1px solid #e5e7eb;color:#667085;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}.row{padding:17px 18px;border-bottom:1px solid #eef0f2}.row:last-child{border-bottom:0}.identity{display:flex;align-items:center;gap:12px;min-width:0}.icon{width:38px;height:38px;border-radius:10px;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:0 0 auto}.identity strong{font-size:14px;display:block}.identity small,.metric small{display:block;color:#667085;font-size:11px;margin-top:4px}.metric strong{font-size:16px}.status{display:inline-flex;width:max-content;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em}.status.ON_TRACK{background:#ecfdf3;color:#027a48}.status.AT_RISK{background:#fffaeb;color:#b54708}.status.OFF_TRACK{background:#fef3f2;color:#b42318}.status.UNKNOWN{background:#f2f4f7;color:#475467}.gap.good{color:#027a48}.gap.bad{color:#b42318}.footer{display:flex;justify-content:space-between;gap:16px;color:#667085;font-size:11px;margin-top:12px}.errorbox{padding:22px;background:#fff;border:1px solid #fecdca;border-radius:14px;color:#b42318}.hidden{display:none}@media(max-width:760px){.shell{padding:16px}.top{display:block}.freshness{text-align:left;margin-top:14px}.panel{background:transparent;border:0;box-shadow:none;overflow:visible}.head{display:none}.row{grid-template-columns:1fr 1fr;background:#fff;border:1px solid #e5e7eb;border-radius:14px;margin-bottom:10px;padding:15px}.identity{grid-column:1/-1}.status{justify-self:end}.metric strong{font-size:15px}.footer{display:block}.footer span{display:block;margin-top:4px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="top">
+      <div>
+        <div class="eyebrow">Error Budgets</div>
+        <h1>Shared executive view</h1>
+        <p class="subtitle">Selected operation-fidelity indicators from the controlled publication contract.</p>
+      </div>
+      <div class="freshness">
+        <strong class="state"><i id="healthDot" class="dot"></i><span id="healthText">Loading…</span></strong>
+        <span id="generated">—</span>
+        <span id="publication">—</span>
+      </div>
+    </section>
+
+    <div id="error" class="errorbox hidden"></div>
+
+    <section id="panel" class="panel hidden" aria-live="polite">
+      <div class="head">
+        <div>Operation</div><div>Fidelity</div><div>Target</div><div>Gap</div><div>Status</div>
+      </div>
+      <div id="rows"></div>
+    </section>
+
+    <footer class="footer">
+      <span>Fidelity is the primary visible metric.</span>
+      <span>Auto-refresh: 30 s · source: sanitized publication state only</span>
+    </footer>
+  </main>
+
+  <script>
+    const DATA_URL='../data/published_state.json';
+    const REFRESH_MS=30000;
+    let lastPublication=null;
+    const $=id=>document.getElementById(id);
+    const pct=(v,d=2)=>`${Number(v).toFixed(d)}%`;
+    const pp=(v,d=2)=>`${Number(v)>=0?'+':''}${Number(v).toFixed(d)} pp`;
+    const when=v=>new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC',timeZoneName:'short'}).format(new Date(v));
+
+    function render(data){
+      $('rows').innerHTML=data.operations.map(o=>`<div class="row">
+        <div class="identity"><span class="icon">${o.icon}</span><div><strong>${o.short_name}</strong><small>${o.title}</small></div></div>
+        <div class="metric"><strong>${pct(o.fidelity_pct)} ± ${pct(o.fidelity_uncertainty_pp)}</strong><small>Observed fidelity</small></div>
+        <div class="metric"><strong>${pct(o.target_fidelity_pct)}</strong><small>Target fidelity</small></div>
+        <div class="metric gap ${o.gap_to_target_pp>=0?'good':'bad'}"><strong>${pp(o.gap_to_target_pp)}</strong><small>vs target</small></div>
+        <div><span class="status ${o.status}">${String(o.status).replaceAll('_',' ')}</span></div>
+      </div>`).join('');
+      $('generated').textContent=`Updated ${when(data.generated_at)}`;
+      $('publication').textContent=data.publication_id;
+      $('healthText').textContent='Current publication loaded';
+      $('healthDot').className='dot';
+      $('error').classList.add('hidden');
+      $('panel').classList.remove('hidden');
+      lastPublication=data.publication_id;
+    }
+
+    async function load(){
+      try{
+        const response=await fetch(`${DATA_URL}?t=${Date.now()}`,{cache:'no-store'});
+        if(!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data=await response.json();
+        if(!data||data.schema_version!=='error-budgets-publication-1.0'||!Array.isArray(data.operations)) throw new Error('Invalid publication contract');
+        if(data.publication_id!==lastPublication) render(data);
+        else{
+          $('healthText').textContent='Current publication loaded';
+          $('healthDot').className='dot';
+        }
+      }catch(error){
+        $('healthText').textContent='Refresh unavailable';
+        $('healthDot').className='dot error';
+        if(!lastPublication){
+          $('error').textContent=`Unable to load the shared Error Budgets publication: ${error.message}`;
+          $('error').classList.remove('hidden');
+        }
+      }
+    }
+
+    load();
+    setInterval(load,REFRESH_MS);
+  </script>
+</body>
+</html>
