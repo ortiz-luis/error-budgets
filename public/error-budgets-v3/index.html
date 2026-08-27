@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Error Budgets — operation overview and 2Q Gate drill-down prototype">
+  <title>Error Budgets · V3</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="site-header">
+      <div>
+        <a class="ecosystem-link" href="../" aria-label="Volver al Rydberg Tweezer Ecosystem Map">Rydberg Tweezer Ecosystem Map</a>
+        <div class="header-title-row">
+          <div class="mark" aria-hidden="true">EB</div>
+          <div>
+            <h1>Error Budgets</h1>
+            <p>Current Performance Overview</p>
+          </div>
+        </div>
+      </div>
+      <div class="prototype-chip">V3 · interactive prototype</div>
+    </header>
+
+    <section id="overviewView" class="view" aria-labelledby="overviewTitle">
+      <div class="view-kicker"><span>Level 1</span> Portfolio overview</div>
+      <div class="section-heading overview-heading">
+        <div>
+          <h2 id="overviewTitle">Todos los Error Budgets</h2>
+          <p>Una vista resumida para comparar operaciones antes de entrar en el detalle técnico.</p>
+        </div>
+        <div class="filters" aria-label="Filtros de contexto">
+          <label>QPU
+            <select id="qpuFilter">
+              <option>IROISE</option>
+            </select>
+          </label>
+          <label>Snapshot
+            <select>
+              <option>Latest available</option>
+            </select>
+          </label>
+          <label>View
+            <select>
+              <option>Current</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="overview-column-head" aria-hidden="true">
+        <span>Operation</span><span>Current performance</span><span>Target / spec</span><span>Status</span><span>Last update</span><span></span>
+      </div>
+      <div id="operationList" class="operation-list"></div>
+      <div class="info-note">
+        <span class="info-icon">i</span>
+        <span>Haz clic en una operación para abrir su página dedicada. Las operaciones sin cuantificación cerrada se muestran explícitamente como incompletas.</span>
+      </div>
+    </section>
+
+    <section id="operationView" class="view" hidden aria-labelledby="operationTitle">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <button id="backToOverview" class="link-button" type="button">Error Budgets Overview</button>
+        <span>›</span>
+        <span id="breadcrumbOperation">2Q Gates</span>
+      </nav>
+
+      <div class="view-kicker"><span>Level 2</span> Dedicated operation page</div>
+
+      <div class="operation-header-row">
+        <div>
+          <div class="operation-title-line">
+            <div id="operationIcon" class="operation-icon large">2Q</div>
+            <div>
+              <h2 id="operationTitle">2Q Gate Fidelity</h2>
+              <p id="operationDescription">Synthetic two-qubit gate pilot</p>
+            </div>
+          </div>
+        </div>
+        <div class="context-pills" id="contextPills"></div>
+      </div>
+
+      <section class="kpi-strip" aria-label="Current performance summary">
+        <div class="kpi-primary">
+          <span class="kpi-label">Current fidelity</span>
+          <strong id="currentFidelity">—</strong>
+          <span class="kpi-sub" id="currentFidelitySub">—</span>
+        </div>
+        <div class="kpi-secondary">
+          <span>Best observed</span>
+          <strong id="bestObserved">—</strong>
+          <small id="bestObservedNote">Not populated</small>
+        </div>
+        <div class="kpi-secondary">
+          <span>Target / spec</span>
+          <strong id="targetFidelity">—</strong>
+          <small id="targetNote">—</small>
+        </div>
+        <div class="kpi-secondary">
+          <span>Last update</span>
+          <strong id="lastUpdate">—</strong>
+          <small id="snapshotStatus">—</small>
+        </div>
+      </section>
+
+      <section id="quantifiedDashboard" class="dashboard-grid">
+        <article class="card trend-card">
+          <div class="card-heading">
+            <div>
+              <span class="eyebrow">Performance</span>
+              <h3>Fidelity evolution</h3>
+            </div>
+            <span class="mini-badge">raw / current convention</span>
+          </div>
+          <div id="trendArea" class="trend-area"></div>
+        </article>
+
+        <article class="card budget-card">
+          <div class="card-heading">
+            <div>
+              <span class="eyebrow">Current error budget</span>
+              <h3>Contribución relativa al error</h3>
+            </div>
+            <span id="budgetCompleteness" class="mini-badge">—</span>
+          </div>
+          <div id="stackedBudget" class="stacked-budget" aria-label="Error budget stacked bar"></div>
+          <div id="budgetLegend" class="budget-legend"></div>
+          <div class="budget-axis"><span>0%</span><span>50%</span><span>100%</span></div>
+          <p id="compositionWarning" class="composition-warning"></p>
+        </article>
+      </section>
+
+      <section id="partialDashboard" class="card partial-card" hidden>
+        <span class="eyebrow">Quantification incomplete</span>
+        <h3 id="partialTitle">This operation is not yet quantified</h3>
+        <p id="partialText"></p>
+        <div id="partialFacts" class="partial-facts"></div>
+      </section>
+
+      <section class="accordion-stack" aria-label="Level 3 technical menus">
+        <div class="view-kicker accordion-level"><span>Level 3</span> Expandable technical detail</div>
+
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="performancePanel">
+            <span class="accordion-left"><span class="chevron">▶</span><span><strong>Performance &amp; Convention</strong><small>Cómo se obtuvo la métrica visible</small></span></span>
+            <span class="click-hint">Click para desplegar</span>
+          </button>
+          <div id="performancePanel" class="accordion-panel" hidden>
+            <div id="performanceContent"></div>
+          </div>
+        </article>
+
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="budgetPanel">
+            <span class="accordion-left"><span class="chevron">▶</span><span><strong>Error Budget Details</strong><small>Contributors, evidencia y método de atribución</small></span></span>
+            <span class="click-hint">Click para desplegar</span>
+          </button>
+          <div id="budgetPanel" class="accordion-panel" hidden>
+            <div id="budgetContent"></div>
+          </div>
+        </article>
+
+        <article class="accordion-item">
+          <button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="historyPanel">
+            <span class="accordion-left"><span class="chevron">▶</span><span><strong>History &amp; Provenance</strong><small>Snapshots, operating point y trazabilidad</small></span></span>
+            <span class="click-hint">Click para desplegar</span>
+          </button>
+          <div id="historyPanel" class="accordion-panel" hidden>
+            <div id="historyContent"></div>
+          </div>
+        </article>
+      </section>
+    </section>
+
+    <footer class="site-footer">
+      <span>Prototype data are synthetic unless explicitly stated otherwise.</span>
+      <span>V3 preserves earlier Error Budget routes and does not modify the map root.</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
