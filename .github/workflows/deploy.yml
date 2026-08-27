@@ -32,6 +32,15 @@ jobs:
       - name: Build commit-backed dataset
         run: node public/error-budgets/scripts/build-dashboard.mjs
 
+      - name: Test publication gate
+        run: node public/error-budgets/scripts/test-publication-gate.mjs
+
+      - name: Build sanitized shared publication state
+        run: node public/error-budgets/scripts/build-published-state.mjs
+
+      - name: Strictly validate shared publication state
+        run: node public/error-budgets/scripts/validate-publication.mjs public/error-budgets/data/published_state.json
+
       - name: Assemble standalone site at root
         run: |
           rm -rf dist
@@ -44,6 +53,10 @@ jobs:
           test -f dist/app.js
           test -f dist/style.css
           test -f dist/data/dashboard.json
+          test -f dist/data/published_state.json
+          test -f dist/schema/error-budget-publication.schema.json
+          node dist/scripts/validate-publication.mjs dist/data/published_state.json
+          ! grep -R "PRIVATE_SENTINEL_MUST_NEVER_BE_PUBLISHED" dist/data/published_state.json
           ! grep -R "Rydberg Tweezer Ecosystem Map" dist/index.html
 
       - name: Setup Pages
