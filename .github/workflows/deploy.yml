@@ -1,20 +1,16 @@
 name: Publish GitHub Pages (main only)
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
   contents: read
-  deployments: write
   pages: write
   id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -73,23 +69,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Remove orphaned Pages deployment lock
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          STALE_SHA="c35df4bbb0f7e4d6544b9e762113c38ae582c40b"
-          echo "Cancelling stale Pages deployment ${STALE_SHA}"
-          gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/deployments/${STALE_SHA}/cancel" >/dev/null 2>&1 || true
-          echo "Removing matching generic deployment records"
-          IDS=$(gh api "repos/${GITHUB_REPOSITORY}/deployments?sha=${STALE_SHA}&per_page=100" --jq '.[].id' 2>/dev/null || true)
-          for ID in ${IDS}; do
-            echo "Cleaning deployment record ${ID}"
-            gh api --method POST "repos/${GITHUB_REPOSITORY}/deployments/${ID}/statuses" -f state=inactive -f description='Clear orphaned Pages deployment lock' >/dev/null 2>&1 || true
-            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/deployments/${ID}" >/dev/null 2>&1 || true
-          done
-          echo "Allowing Pages backend to release the lock"
-          sleep 10
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
