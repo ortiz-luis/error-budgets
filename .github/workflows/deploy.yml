@@ -1,9 +1,6 @@
 name: Publish GitHub Pages (main only)
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
@@ -26,8 +23,10 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Fetch Error Budget operation branches
-        run: git fetch --prune origin '+refs/heads/error-budget/*:refs/remotes/origin/error-budget/*'
+      - name: Fetch Error Budget data branches
+        run: |
+          git fetch --prune origin '+refs/heads/error-budget/*:refs/remotes/origin/error-budget/*'
+          git fetch --prune origin '+refs/heads/error-budgets-data/*:refs/remotes/origin/error-budgets-data/*'
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -38,20 +37,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build commit-backed Error Budgets V4 dataset
+      - name: Build legacy commit-backed Error Budgets V4 dataset
         run: node public/error-budgets-v4/scripts/build-dashboard.mjs
 
-      - name: Build commit-backed Error Budgets V5 dataset
+      - name: Build legacy commit-backed Error Budgets V5 dataset
         run: node public/error-budgets-v5/scripts/build-dashboard.mjs
 
-      - name: Inject Error Budget build metadata
-        run: |
-          mkdir -p public/error-budgets-lucas-v0 public/error-budgets-v2 public/error-budgets-v4 public/error-budgets-v5
-          META="{\"git_sha\":\"$(git rev-parse HEAD)\",\"trigger_sha\":\"${GITHUB_SHA}\",\"built_at\":\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\",\"run_id\":\"${GITHUB_RUN_ID}\",\"source\":\"GitHub Actions deployment\"}"
-          printf '%s\n' "$META" > public/error-budgets-lucas-v0/build-meta.json
-          printf '%s\n' "$META" > public/error-budgets-v2/build-meta.json
-          printf '%s\n' "$META" > public/error-budgets-v4/build-meta.json
-          printf '%s\n' "$META" > public/error-budgets-v5/build-meta.json
+      - name: Build canonical Error Budgets dataset
+        run: node public/error-budgets/scripts/build-dashboard.mjs
 
       - name: Build site
         run: npm run build
