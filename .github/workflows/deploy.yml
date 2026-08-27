@@ -72,6 +72,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Cancel known stale Pages deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/deployments/c35df4bbb0f7e4d6544b9e762113c38ae582c40b/cancel" || true
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
