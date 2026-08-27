@@ -1,65 +1,41 @@
-name: Publish GitHub Pages (main only)
+name: Validate standalone Error Budgets
 
 on:
   push:
     branches:
-      - main
+      - error-budgets-standalone
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout published application
+      - name: Checkout standalone project
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: error-budgets-standalone
           fetch-depth: 0
 
-      - name: Fetch canonical Error Budget data branches
+      - name: Fetch Error Budget data branches
         run: git fetch --prune origin '+refs/heads/error-budgets-data/*:refs/remotes/origin/error-budgets-data/*'
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build canonical Error Budgets dataset
+      - name: Build commit-backed dataset
         run: node public/error-budgets/scripts/build-dashboard.mjs
 
-      - name: Build site
-        run: npm run build
+      - name: Assemble standalone site at root
+        run: |
+          rm -rf dist
+          mkdir -p dist
+          cp -R public/error-budgets/. dist/
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Validate standalone artifact
+        run: |
+          test -f dist/index.html
+          test -f dist/app.js
+          test -f dist/style.css
+          test -f dist/data/dashboard.json
+          ! grep -R "Rydberg Tweezer Ecosystem Map" dist/index.html
