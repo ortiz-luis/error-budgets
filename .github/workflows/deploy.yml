@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Publish GitHub Pages (main only)
 
 on:
   push:
@@ -12,12 +12,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-publish-main
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout published application
         uses: actions/checkout@v4
@@ -26,7 +27,7 @@ jobs:
           fetch-depth: 0
 
       - name: Fetch Error Budget operation branches
-        run: git fetch origin '+refs/heads/error-budget/*:refs/remotes/origin/error-budget/*' || true
+        run: git fetch --prune origin '+refs/heads/error-budget/*:refs/remotes/origin/error-budget/*'
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -52,23 +53,24 @@ jobs:
           printf '%s\n' "$META" > public/error-budgets-v4/build-meta.json
           printf '%s\n' "$META" > public/error-budgets-v5/build-meta.json
 
-      - name: Build
+      - name: Build site
         run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
