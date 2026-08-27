@@ -47,14 +47,15 @@
     const pct=(v,d=2)=>`${Number(v).toFixed(d)}%`;
     const pp=(v,d=2)=>`${Number(v)>=0?'+':''}${Number(v).toFixed(d)} pp`;
     const when=v=>new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC',timeZoneName:'short'}).format(new Date(v));
+    const esc=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
     function render(data){
       $('rows').innerHTML=data.operations.map(o=>`<div class="row">
-        <div class="identity"><span class="icon">${o.icon}</span><div><strong>${o.short_name}</strong><small>${o.title}</small></div></div>
+        <div class="identity"><span class="icon">${esc(o.icon)}</span><div><strong>${esc(o.short_name)}</strong><small>${esc(o.title)}</small></div></div>
         <div class="metric"><strong>${pct(o.fidelity_pct)} ± ${pct(o.fidelity_uncertainty_pp)}</strong><small>Observed fidelity</small></div>
         <div class="metric"><strong>${pct(o.target_fidelity_pct)}</strong><small>Target fidelity</small></div>
         <div class="metric gap ${o.gap_to_target_pp>=0?'good':'bad'}"><strong>${pp(o.gap_to_target_pp)}</strong><small>vs target</small></div>
-        <div><span class="status ${o.status}">${String(o.status).replaceAll('_',' ')}</span></div>
+        <div><span class="status ${o.status}">${esc(String(o.status).replaceAll('_',' '))}</span></div>
       </div>`).join('');
       $('generated').textContent=`Updated ${when(data.generated_at)}`;
       $('publication').textContent=data.publication_id;
