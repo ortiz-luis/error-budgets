@@ -16,10 +16,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  request-refresh:
+  validate-and-refresh:
     runs-on: ubuntu-latest
     steps:
-      - name: Debounce rapid data updates
+      - name: Checkout validation tooling from main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: tooling
+          fetch-depth: 1
+
+      - name: Checkout pushed data branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          path: data
+          fetch-depth: 1
+
+      - name: Strictly validate pushed operation JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="$GITHUB_REF_NAME"
+          id="${branch#error-budgets-data/}"
+          file="data/public/error-budgets/data/operations/${id}.json"
+          test -f "$file"
+          node tooling/public/error-budgets/scripts/validate-operation.mjs "$file" --expected-id "$id" --expected-branch "$branch"
+
+      - name: Debounce rapid valid data updates
         run: sleep 15
 
       - name: Dispatch Pages publisher on main
