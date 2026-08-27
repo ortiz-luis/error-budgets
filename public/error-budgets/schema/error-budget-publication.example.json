@@ -1,0 +1,19 @@
+{
+  "schema_version": "error-budgets-publication-1.0",
+  "publication_id": "EBP-20260827T220000Z-70fae8f",
+  "generated_at": "2026-08-27T22:00:00Z",
+  "operations": [
+    {
+      "id": "2q",
+      "short_name": "2Q Gates",
+      "title": "2Q Gate Fidelity",
+      "icon": "2Q",
+      "status": "AT_RISK",
+      "fidelity_pct": 90.8,
+      "fidelity_uncertainty_pp": 0.5,
+      "target_fidelity_pct": 99.7,
+      "gap_to_target_pp": -8.9,
+      "live_at": "2026-08-27"
+    }
+  ]
+}
