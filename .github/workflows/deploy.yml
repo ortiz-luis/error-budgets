@@ -83,7 +83,8 @@ jobs:
             echo "stale Pages deployment status: ${STATUS}"
             case "${STATUS}" in
               in_progress|queued|pending|building) sleep 3 ;;
-              *) break ;;
+              deployment_cancelled|cancelled|gone) echo "waiting for Pages backend propagation"; sleep 20; break ;;
+              *) sleep 10; break ;;
             esac
           done
 
