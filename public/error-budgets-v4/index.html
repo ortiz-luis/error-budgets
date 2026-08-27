@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
+<title>Error Budgets · V4</title><link rel="stylesheet" href="style.css">
+</head>
+<body><main class="shell">
+<header><div><a href="../" class="back">Rydberg Tweezer Ecosystem Map</a><div class="brand"><span>EB</span><div><h1>Error Budgets</h1><p>Versioned scientific snapshots</p></div></div></div><b class="chip">V4 · data-driven prototype</b></header>
+<section id="overview" class="view"><div class="kicker"><b>Level 1</b> Portfolio overview</div><div class="heading"><div><h2>Todos los Error Budgets</h2><p>Todos los valores se generan desde archivos versionados por operación.</p></div><div class="policy">Synthetic · literature-informed · not PASQAL data</div></div><div class="columns"><span>Operation</span><span>Current fidelity</span><span>Target / spec</span><span>Status</span><span>Snapshot</span><span></span></div><div id="ops" class="ops"></div></section>
+<section id="operation" class="view" hidden><nav><button id="home">Error Budgets Overview</button><span>›</span><span id="crumb"></span></nav><div class="kicker"><b>Level 2</b> Dedicated operation page</div><div class="heading"><div class="titleline"><span id="icon" class="opicon"></span><div><h2 id="title"></h2><p id="desc"></p></div></div><div id="pills" class="pills"></div></div>
+<div class="kpis"><div><small>Current fidelity</small><strong id="fidelity"></strong><em id="fidelityMeta"></em></div><div><small>Target / spec</small><strong id="target"></strong><em id="targetMeta"></em></div><div><small>Last update</small><strong id="updated"></strong><em id="snapshot"></em></div><div><small>Data source</small><strong id="sourceState"></strong><em>Git snapshot</em></div></div>
+<div class="grid"><article class="card"><div class="cardhead"><div><small>Performance</small><h3>Fidelity evolution</h3></div><span>commit history</span></div><div id="trend"></div></article><article class="card"><div class="cardhead"><div><small>Current error budget</small><h3>Contribución relativa al error</h3></div><span id="coverage"></span></div><div id="stack" class="stack"></div><div id="legend" class="legend"></div></article></div>
+<div class="level3"><div class="kicker"><b>Level 3</b> Expandable technical detail</div><details><summary>Performance &amp; Convention <i>Click para desplegar</i></summary><div id="performance"></div></details><details><summary>Error Budget Details <i>Click para desplegar</i></summary><div id="budget"></div></details><details><summary>History &amp; Provenance <i>Click para desplegar</i></summary><div id="history"></div></details></div></section>
+<footer>Prototype data are synthetic and literature-informed unless explicitly stated otherwise. V3 remains untouched.</footer>
+</main><script src="app.js"></script></body></html>
