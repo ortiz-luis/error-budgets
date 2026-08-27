@@ -1,17 +1,19 @@
-name: Validate standalone Error Budgets
+name: Publish Error Budgets Pages
 
 on:
   push:
     branches:
-      - error-budgets-standalone
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: standalone-error-budgets-validation
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -21,7 +23,7 @@ jobs:
       - name: Checkout standalone project
         uses: actions/checkout@v4
         with:
-          ref: error-budgets-standalone
+          ref: main
           fetch-depth: 0
 
       - name: Fetch Error Budget data branches
@@ -43,3 +45,23 @@ jobs:
           test -f dist/style.css
           test -f dist/data/dashboard.json
           ! grep -R "Rydberg Tweezer Ecosystem Map" dist/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
