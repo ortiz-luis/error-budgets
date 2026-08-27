@@ -7,55 +7,55 @@
   "icon": "1Q",
   "status": "AT_RISK",
   "source_branch": "error-budgets-data/1q",
-  "current_error_pct": 6.8,
-  "uncertainty_error_pp": 0.35,
+  "current_error_pct": 7.6,
+  "uncertainty_error_pp": 0.4,
   "spec_error_pct": 0.1,
   "known_attribution_pct": 100,
   "live_at": "2026-08-27",
-  "snapshot_id": "SYN-1Q-TEST-LOW-0003",
+  "snapshot_id": "SYN-1Q-TEST-LOW-0004",
   "protocol": "DRB-like single-qubit benchmark",
   "benchmark": "Average single-qubit fidelity",
   "metric_convention": "Fidelity = 1 − error",
   "measurement_chain": "Synthetic benchmark → contributor attribution",
-  "operating_point": "Global Raman control · synthetic ingestion test",
-  "target_note": "pipeline ingestion test",
+  "operating_point": "Global Raman control · synthetic ingestion test round 2",
+  "target_note": "pipeline autonomy test",
   "contributors": [
     {
       "name": "Coherent control / calibration",
-      "share_pct": 32,
+      "share_pct": 31,
       "share_uncertainty_pct": 5,
-      "impact_error_pp": 2.176,
-      "uncertainty_pp": 0.18,
+      "impact_error_pp": 2.356,
+      "uncertainty_pp": 0.2,
       "evidence": "synthetic measured-like",
       "confidence": "HIGH",
       "owner": "Control"
     },
     {
       "name": "Raman scattering",
-      "share_pct": 24,
+      "share_pct": 25,
       "share_uncertainty_pct": 4,
-      "impact_error_pp": 1.632,
-      "uncertainty_pp": 0.15,
+      "impact_error_pp": 1.9,
+      "uncertainty_pp": 0.17,
       "evidence": "synthetic model",
       "confidence": "HIGH",
       "owner": "AMO"
     },
     {
       "name": "Phase / frequency noise",
-      "share_pct": 19,
+      "share_pct": 20,
       "share_uncertainty_pct": 4,
-      "impact_error_pp": 1.292,
-      "uncertainty_pp": 0.14,
+      "impact_error_pp": 1.52,
+      "uncertainty_pp": 0.16,
       "evidence": "synthetic hybrid",
       "confidence": "MEDIUM",
       "owner": "Control"
     },
     {
       "name": "Intensity inhomogeneity",
-      "share_pct": 15,
+      "share_pct": 14,
       "share_uncertainty_pct": 3,
-      "impact_error_pp": 1.02,
-      "uncertainty_pp": 0.12,
+      "impact_error_pp": 1.064,
+      "uncertainty_pp": 0.13,
       "evidence": "synthetic measured-like",
       "confidence": "MEDIUM",
       "owner": "Calibration"
@@ -64,8 +64,8 @@
       "name": "Residual / other",
       "share_pct": 10,
       "share_uncertainty_pct": 4,
-      "impact_error_pp": 0.68,
-      "uncertainty_pp": 0.11,
+      "impact_error_pp": 0.76,
+      "uncertainty_pp": 0.12,
       "evidence": "synthetic residual",
       "confidence": "LOW",
       "owner": null
@@ -75,12 +75,12 @@
     {
       "title": "Benchmarking single-qubit gates on a neutral-atom quantum processor, Phys. Rev. A 113, 042603 (2026)",
       "url": "https://doi.org/10.1103/vbwh-sk7s",
-      "note": "Contributor structure anchor; low fidelity chosen intentionally for ingestion testing."
+      "note": "Structure anchor only; fidelity intentionally low for autonomy testing."
     },
     {
       "title": "Evered et al., Nature 622, 268–272 (2023)",
       "url": "https://doi.org/10.1038/s41586-023-06481-y",
-      "note": "Contributor families retained from the prototype model."
+      "note": "Contributor-family anchor."
     }
   ]
 }
