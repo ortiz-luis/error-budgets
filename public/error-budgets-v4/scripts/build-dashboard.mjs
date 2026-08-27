@@ -1,0 +1,9 @@
+import fs from 'node:fs';import cp from 'node:child_process';
+const root='public/error-budgets-v4';const ids=['1q','2q','initialization','readout','movement','analog'];
+const sh=c=>cp.execSync(c,{encoding:'utf8'}).trim();const exists=ref=>{try{sh(`git rev-parse --verify ${ref}`);return true}catch{return false}};
+function sourceRef(id){const remote=`refs/remotes/origin/error-budget/${id}`;return exists(remote)?remote:'HEAD'}
+function readAt(ref,path){return JSON.parse(sh(`git show ${ref}:${path}`))}
+function historyFor(ref,path){let commits=[];try{commits=sh(`git log --reverse --format='%H|%cI' ${ref} -- ${path}`).split('\n').filter(Boolean)}catch{}const out=[];for(const row of commits){const [sha,iso]=row.split('|');try{const j=readAt(sha,path);out.push({date:(j.live_at||iso.slice(0,10)),fidelity_pct:100-Number(j.current_error_pct),uncertainty_pct:Number(j.uncertainty_error_pp||0),snapshot:j.snapshot_id||sha.slice(0,8),commit:sha,short_commit:sha.slice(0,7),status:j.status})}catch{}}return out}
+const operations=ids.map(id=>{const path=`${root}/data/operations/${id}.json`;const ref=sourceRef(id);const op=readAt(ref,path);op.source_ref=ref;op.source_commit=sh(`git rev-parse ${ref}`);op.history=historyFor(ref,path);return op});
+const dashboard={schema_version:'error-budgets-v4.0',site:{title:'Error Budgets',qpu:'IROISE',data_policy:'synthetic-literature-informed',generated_at:new Date().toISOString(),note:'dashboard.json is generated. Authoritative scientific snapshots live in per-operation JSON files and their Git commit history.'},operations};
+fs.writeFileSync(`${root}/data/dashboard.json`,JSON.stringify(dashboard,null,2)+'\n');console.log(`Generated V4 dashboard with ${operations.length} operations.`);
