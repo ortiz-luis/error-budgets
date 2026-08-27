@@ -72,10 +72,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Cancel known stale Pages deployment
+      - name: Clear known stale Pages deployment
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/deployments/c35df4bbb0f7e4d6544b9e762113c38ae582c40b/cancel" || true
+        run: |
+          STALE_SHA="c35df4bbb0f7e4d6544b9e762113c38ae582c40b"
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/deployments/${STALE_SHA}/cancel" >/dev/null 2>&1 || true
+          for i in $(seq 1 20); do
+            STATUS=$(gh api "repos/${GITHUB_REPOSITORY}/pages/deployments/${STALE_SHA}" --jq '.status' 2>/dev/null || echo gone)
+            echo "stale Pages deployment status: ${STATUS}"
+            case "${STATUS}" in
+              in_progress|queued|pending|building) sleep 3 ;;
+              *) break ;;
+            esac
+          done
 
       - name: Deploy to GitHub Pages
         id: deployment
