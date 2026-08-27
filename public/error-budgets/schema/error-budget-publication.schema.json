@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ortiz-luis.github.io/error-budgets/schema/error-budget-publication.schema.json",
+  "title": "Error Budgets Shared Executive Publication",
+  "description": "Strict deny-by-default contract for the sanitized Error Budgets state that may be consumed by shared Web, Notion and SharePoint surfaces.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "publication_id",
+    "generated_at",
+    "operations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "error-budgets-publication-1.0"
+    },
+    "publication_id": {
+      "type": "string",
+      "pattern": "^EBP-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{7,12}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/operation"
+      }
+    }
+  },
+  "$defs": {
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "short_name",
+        "title",
+        "icon",
+        "status",
+        "fidelity_pct",
+        "fidelity_uncertainty_pp",
+        "target_fidelity_pct",
+        "gap_to_target_pp",
+        "live_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "1q",
+            "2q",
+            "movement",
+            "initialization",
+            "readout",
+            "addressability",
+            "analog"
+          ]
+        },
+        "short_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "icon": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ON_TRACK",
+            "AT_RISK",
+            "OFF_TRACK",
+            "UNKNOWN"
+          ]
+        },
+        "fidelity_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "fidelity_uncertainty_pp": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "target_fidelity_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "gap_to_target_pp": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "live_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        }
+      }
+    }
+  }
+}
