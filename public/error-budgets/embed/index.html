@@ -6,8 +6,58 @@
   <meta name="color-scheme" content="light">
   <title>Error Budgets — Live Module</title>
   <style>
-    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1f2937;background:transparent}
-    *{box-sizing:border-box}html,body{margin:0;background:transparent}body{padding:2px}.module{width:100%;background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden}.pad{padding:14px 16px}.muted{color:#667085}.tiny{font-size:11px}.label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#667085}.value{font-size:22px;font-weight:800;line-height:1.1;margin-top:4px}.sub{font-size:11px;color:#667085;margin-top:4px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.status{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800}.ON_TRACK{background:#ecfdf3;color:#027a48}.AT_RISK{background:#fffaeb;color:#b54708}.OFF_TRACK{background:#fef3f2;color:#b42318}.UNKNOWN{background:#f2f4f7;color:#475467}.good{color:#027a48}.bad{color:#b42318}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.kpi{padding:10px 12px;border:1px solid #eef0f2;border-radius:10px;background:#fafbfc}.kpi strong{display:block;font-size:14px;margin-top:3px}.ops{display:grid;gap:8px}.op{display:grid;grid-template-columns:minmax(0,1.5fr) .8fr .7fr;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid #eef0f2}.op:last-child{border-bottom:0}.op strong{font-size:12px}.op small{display:block;color:#667085;font-size:10px;margin-top:2px}.fresh{display:flex;align-items:center;gap:8px}.dot{width:8px;height:8px;border-radius:50%;background:#16a34a;flex:0 0 auto}.dot.error{background:#dc2626}.error{padding:12px 14px;color:#b42318;background:#fff;border:1px solid #fecdca;border-radius:10px;font-size:12px}@media(max-width:520px){.grid{grid-template-columns:1fr 1fr}.op{grid-template-columns:1fr .8fr}.op .statuscell{grid-column:2;grid-row:1;justify-self:end}.op .gapcell{grid-column:1/-1}.value{font-size:20px}}
+    :root{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#202124;
+      background:transparent;
+      --blue:#e8f3fb;
+      --green:#eaf4ee;
+      --yellow:#fbf4d9;
+      --grey:#f1f1ef;
+      --peach:#faeadf;
+      --purple:#f1e8f7;
+      --line:#e7e7e5;
+      --muted:#787774;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:transparent}
+    body{padding:2px}
+    .module{width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+    .pad{padding:14px 16px}
+    .label{font-size:11px;font-weight:700;color:#37352f}
+    .eyebrow{font-size:10px;font-weight:800;letter-spacing:.055em;text-transform:uppercase;color:#37352f}
+    .muted,.sub{color:var(--muted)}
+    .sub{font-size:11px;margin-top:3px;line-height:1.35}
+    .tiny{font-size:10px}
+    .value{font-size:22px;font-weight:800;line-height:1.1;margin-top:5px;color:#111}
+    .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .status{display:inline-flex;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:750}
+    .ON_TRACK{background:#dbeddb;color:#245b31}
+    .AT_RISK{background:#fdecc8;color:#8a5b00}
+    .OFF_TRACK{background:#ffe2dd;color:#9b2c22}
+    .UNKNOWN{background:#e3e2e0;color:#56534f}
+    .good{color:#287a45}.bad{color:#b42318}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+    .kpi{min-height:74px;padding:12px 13px;border-radius:9px}
+    .kpi:nth-child(1){background:var(--green)}
+    .kpi:nth-child(2){background:var(--grey)}
+    .kpi:nth-child(3){background:var(--yellow)}
+    .kpi:nth-child(4){background:var(--blue)}
+    .kpi strong{display:block;font-size:15px;margin-top:5px;color:#111}
+    .ops{display:grid;gap:0}
+    .op{display:grid;grid-template-columns:minmax(0,1.6fr) .8fr .8fr .9fr;gap:10px;align-items:center;padding:11px 13px;border-top:1px solid #efefed}
+    .op:first-child{border-top:0}
+    .op strong{font-size:12px}.op small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+    .overview-head{background:var(--blue);padding:12px 14px}
+    .fresh{display:flex;align-items:center;gap:9px;background:var(--grey)}
+    .dot{width:8px;height:8px;border-radius:50%;background:#4f9f68;flex:0 0 auto}
+    .error{padding:12px 14px;color:#9b2c22;background:#ffe2dd;border-radius:9px;font-size:12px}
+    @media(max-width:680px){
+      .kpis{grid-template-columns:1fr 1fr}
+      .op{grid-template-columns:1fr .8fr}
+      .op .targetcell,.op .gapcell{display:none}
+      .value{font-size:20px}
+    }
   </style>
 </head>
 <body>
@@ -18,6 +68,7 @@
     const params=new URLSearchParams(location.search);
     const requestedOperation=params.get('operation');
     const requestedView=params.get('view')||'overview';
+    const requestedIds=(params.get('ids')||'').split(',').map(v=>v.trim()).filter(Boolean);
     let lastPublication=null;
 
     const pct=(v,d=2)=>`${Number(v).toFixed(d)}%`;
@@ -28,23 +79,44 @@
 
     function renderOperation(o,data){
       root.innerHTML=`<section class="module pad">
-        <div class="row"><div><div class="label">${esc(o.short_name)}</div><div class="sub">${esc(o.title)}</div></div><span class="status ${esc(o.status)}">${esc(String(o.status).replaceAll('_',' '))}</span></div>
-        <div class="value">${pct(o.fidelity_pct)} ± ${pct(o.fidelity_uncertainty_pp)}</div>
-        <div class="grid">
-          <div class="kpi"><span class="label">Target</span><strong>${pct(o.target_fidelity_pct)}</strong></div>
-          <div class="kpi"><span class="label">Gap</span><strong class="${o.gap_to_target_pp>=0?'good':'bad'}">${pp(o.gap_to_target_pp)}</strong></div>
-          <div class="kpi"><span class="label">Live at</span><strong>${esc(o.live_at)}</strong></div>
+        <div class="row">
+          <div><div class="eyebrow">Current KPI</div><div class="sub">${esc(o.short_name)} · ${esc(o.title)}</div></div>
+          <span class="status ${esc(o.status)}">${esc(String(o.status).replaceAll('_',' '))}</span>
         </div>
-        <div class="sub">Publication ${esc(data.publication_id)} · ${esc(when(data.generated_at))}</div>
+        <div class="kpis">
+          <div class="kpi"><span class="label">Fidelity</span><strong>${pct(o.fidelity_pct)} ± ${pct(o.fidelity_uncertainty_pp)}</strong></div>
+          <div class="kpi"><span class="label">Target fidelity</span><strong>${pct(o.target_fidelity_pct)}</strong></div>
+          <div class="kpi"><span class="label">Gap to target</span><strong class="${o.gap_to_target_pp>=0?'good':'bad'}">${pp(o.gap_to_target_pp)}</strong></div>
+          <div class="kpi"><span class="label">Data date</span><strong>${esc(o.live_at)}</strong></div>
+        </div>
+        <div class="sub">Updated ${esc(when(data.generated_at))} · ${esc(data.publication_id)}</div>
       </section>`;
     }
 
+    function selectOperations(data){
+      if(!requestedIds.length) return data.operations;
+      const wanted=new Set(requestedIds);
+      return data.operations.filter(o=>wanted.has(o.id));
+    }
+
     function renderOverview(data){
-      root.innerHTML=`<section class="module"><div class="pad row"><div><div class="label">Error Budgets</div><div class="sub">Live fidelity summary</div></div><div class="tiny muted">${esc(data.publication_id)}</div></div><div class="ops">${data.operations.map(o=>`<div class="op"><div><strong>${esc(o.short_name)}</strong><small>${esc(o.title)}</small></div><div><strong>${pct(o.fidelity_pct)}</strong><small>Fidelity</small></div><div class="statuscell"><span class="status ${esc(o.status)}">${esc(String(o.status).replaceAll('_',' '))}</span></div><div class="gapcell" style="display:none"></div></div>`).join('')}</div></section>`;
+      const operations=selectOperations(data);
+      root.innerHTML=`<section class="module">
+        <div class="overview-head row">
+          <div><div class="eyebrow">Operations overview</div><div class="sub">Live fidelity layer · ${operations.length} operations</div></div>
+          <div class="tiny muted">${esc(data.publication_id)}</div>
+        </div>
+        <div class="ops">${operations.map(o=>`<div class="op">
+          <div><strong>${esc(o.short_name)}</strong><small>${esc(o.title)}</small></div>
+          <div><strong>${pct(o.fidelity_pct)}</strong><small>Fidelity</small></div>
+          <div class="targetcell"><strong>${pct(o.target_fidelity_pct)}</strong><small>Target</small></div>
+          <div class="gapcell"><strong class="${o.gap_to_target_pp>=0?'good':'bad'}">${pp(o.gap_to_target_pp)}</strong><small>Gap</small></div>
+        </div>`).join('')}</div>
+      </section>`;
     }
 
     function renderFreshness(data){
-      root.innerHTML=`<section class="module pad"><div class="fresh"><i class="dot"></i><div><div class="label">Current publication</div><div><strong>${esc(data.publication_id)}</strong></div><div class="sub">Updated ${esc(when(data.generated_at))}</div></div></div></section>`;
+      root.innerHTML=`<section class="module pad fresh"><i class="dot"></i><div><div class="label">Last updated</div><div><strong>${esc(when(data.generated_at))}</strong></div><div class="sub">${esc(data.publication_id)}</div></div></section>`;
     }
 
     function render(data){
