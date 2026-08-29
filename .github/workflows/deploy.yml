@@ -41,6 +41,9 @@ jobs:
       - name: Strictly validate shared publication state
         run: node public/error-budgets/scripts/validate-publication.mjs public/error-budgets/data/published_state.json
 
+      - name: Build sanitized detail publication state
+        run: node public/error-budgets/scripts/build-published-detail-state.mjs
+
       - name: Assemble standalone site at root
         run: |
           rm -rf dist
@@ -54,11 +57,16 @@ jobs:
           test -f dist/style.css
           test -f dist/data/dashboard.json
           test -f dist/data/published_state.json
+          test -f dist/data/published_detail_state.json
+          test -f dist/data/program_actions.json
           test -f dist/schema/error-budget-publication.schema.json
           test -f dist/share/index.html
           test -f dist/embed/index.html
           node dist/scripts/validate-publication.mjs dist/data/published_state.json
+          node -e "const d=require('./dist/data/published_detail_state.json'); if(d.schema_version!=='error-budgets-detail-publication-1.0'||!Array.isArray(d.operations)||!Array.isArray(d.actions)) process.exit(1)"
           ! grep -R "PRIVATE_SENTINEL_MUST_NEVER_BE_PUBLISHED" dist/data/published_state.json
+          ! grep -R "PRIVATE_SENTINEL_MUST_NEVER_BE_PUBLISHED" dist/data/published_detail_state.json
+          ! grep -R "source_branch\|source_ref" dist/data/published_detail_state.json
           ! grep -R "dashboard.json" dist/share/
           ! grep -R "dashboard.json" dist/embed/
           ! grep -R "Rydberg Tweezer Ecosystem Map" dist/index.html
