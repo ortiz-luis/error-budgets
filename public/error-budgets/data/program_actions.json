@@ -1,0 +1,30 @@
+{
+  "schema_version": "error-budgets-actions-1.0",
+  "data_policy": "synthetic-reference",
+  "actions": [
+    {
+      "id": "ACT-2Q-001",
+      "operation_id": "2q",
+      "action": "Refine lifetime model and re-fit parameters",
+      "priority": "HIGH",
+      "state": "IN_PROGRESS",
+      "owner": "Selim"
+    },
+    {
+      "id": "ACT-2Q-002",
+      "operation_id": "2q",
+      "action": "Improve temperature calibration and model",
+      "priority": "HIGH",
+      "state": "IN_PROGRESS",
+      "owner": "Pauline"
+    },
+    {
+      "id": "ACT-2Q-003",
+      "operation_id": "2q",
+      "action": "Run new crosstalk matrix at higher drive",
+      "priority": "MEDIUM",
+      "state": "PLANNED",
+      "owner": "Francisco"
+    }
+  ]
+}
