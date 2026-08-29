@@ -4,148 +4,56 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Error Budgets — Live Module</title>
+  <title>Error Budgets — Live Embed Library</title>
   <style>
-    :root{
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:#202124;
-      background:transparent;
-      --blue:#e8f3fb;
-      --green:#eaf4ee;
-      --yellow:#fbf4d9;
-      --grey:#f1f1ef;
-      --peach:#faeadf;
-      --purple:#f1e8f7;
-      --line:#e7e7e5;
-      --muted:#787774;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:transparent}
-    body{padding:2px}
-    .module{width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-    .pad{padding:14px 16px}
-    .label{font-size:11px;font-weight:700;color:#37352f}
-    .eyebrow{font-size:10px;font-weight:800;letter-spacing:.055em;text-transform:uppercase;color:#37352f}
-    .muted,.sub{color:var(--muted)}
-    .sub{font-size:11px;margin-top:3px;line-height:1.35}
-    .tiny{font-size:10px}
-    .value{font-size:22px;font-weight:800;line-height:1.1;margin-top:5px;color:#111}
-    .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .status{display:inline-flex;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:750}
-    .ON_TRACK{background:#dbeddb;color:#245b31}
-    .AT_RISK{background:#fdecc8;color:#8a5b00}
-    .OFF_TRACK{background:#ffe2dd;color:#9b2c22}
-    .UNKNOWN{background:#e3e2e0;color:#56534f}
-    .good{color:#287a45}.bad{color:#b42318}
-    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
-    .kpi{min-height:74px;padding:12px 13px;border-radius:9px}
-    .kpi:nth-child(1){background:var(--green)}
-    .kpi:nth-child(2){background:var(--grey)}
-    .kpi:nth-child(3){background:var(--yellow)}
-    .kpi:nth-child(4){background:var(--blue)}
-    .kpi strong{display:block;font-size:15px;margin-top:5px;color:#111}
-    .ops{display:grid;gap:0}
-    .op{display:grid;grid-template-columns:minmax(0,1.6fr) .8fr .8fr .9fr;gap:10px;align-items:center;padding:11px 13px;border-top:1px solid #efefed}
-    .op:first-child{border-top:0}
-    .op strong{font-size:12px}.op small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
-    .overview-head{background:var(--blue);padding:12px 14px}
-    .fresh{display:flex;align-items:center;gap:9px;background:var(--grey)}
-    .dot{width:8px;height:8px;border-radius:50%;background:#4f9f68;flex:0 0 auto}
-    .error{padding:12px 14px;color:#9b2c22;background:#ffe2dd;border-radius:9px;font-size:12px}
-    @media(max-width:680px){
-      .kpis{grid-template-columns:1fr 1fr}
-      .op{grid-template-columns:1fr .8fr}
-      .op .targetcell,.op .gapcell{display:none}
-      .value{font-size:20px}
-    }
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#202124;background:transparent;--blue:#e8f3fb;--green:#eaf4ee;--yellow:#fbf4d9;--grey:#f1f1ef;--peach:#faeadf;--purple:#f1e8f7;--red:#ffe2dd;--line:#e7e7e5;--muted:#787774}
+    *{box-sizing:border-box}html,body{margin:0;background:transparent}body{padding:2px}.module{width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}.pad{padding:12px 14px}.head{padding:10px 13px;background:var(--blue);display:flex;justify-content:space-between;gap:12px;align-items:center}.eyebrow{font-size:10px;font-weight:800;letter-spacing:.055em;text-transform:uppercase}.sub,.muted{color:var(--muted)}.sub{font-size:10px;line-height:1.35;margin-top:2px}.tiny{font-size:9px}.label{font-size:10px;font-weight:700}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.status,.chip{display:inline-flex;padding:3px 7px;border-radius:6px;font-size:9px;font-weight:750}.ON_TRACK{background:#dbeddb;color:#245b31}.AT_RISK{background:#fdecc8;color:#8a5b00}.OFF_TRACK{background:#ffe2dd;color:#9b2c22}.UNKNOWN{background:#e3e2e0;color:#56534f}.HIGH{background:#ffe2dd;color:#9b2c22}.MEDIUM{background:#fdecc8;color:#8a5b00}.LOW{background:#e3e2e0;color:#56534f}.IN_PROGRESS{background:#e8f3fb;color:#245b77}.PLANNED{background:#f1e8f7;color:#69448d}.DONE{background:#dbeddb;color:#245b31}.BLOCKED{background:#ffe2dd;color:#9b2c22}.good{color:#287a45}.bad{color:#b42318}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:9px}.kpi{padding:9px 10px;border-radius:8px;min-height:58px}.kpi:nth-child(1){background:var(--green)}.kpi:nth-child(2){background:var(--grey)}.kpi:nth-child(3){background:var(--yellow)}.kpi:nth-child(4){background:var(--blue)}.kpi strong{display:block;font-size:14px;margin-top:3px;color:#111}
+    .ops,.rows{display:grid}.op,.data-row{display:grid;grid-template-columns:minmax(0,1.7fr) .7fr .7fr .8fr;gap:8px;align-items:center;padding:8px 11px;border-top:1px solid #efefed}.op:first-child,.data-row:first-child{border-top:0}.op strong,.data-row strong{font-size:11px}.op small,.data-row small{display:block;color:var(--muted);font-size:9px;margin-top:1px}
+    .chart{padding:10px 12px}.barrow{display:grid;grid-template-columns:minmax(90px,1.25fr) minmax(120px,3fr) 58px;gap:8px;align-items:center;margin:6px 0}.barlabel{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track{height:14px;background:#f1f1ef;border-radius:4px;overflow:hidden}.fill{height:100%;background:#9ab8ce;border-radius:4px}.fill.badfill{background:#d8a29d}.barvalue{text-align:right;font-size:10px;font-weight:700}.bar-note{font-size:9px;color:var(--muted)}
+    .split{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.metric{padding:9px 10px;border-radius:8px;background:var(--grey)}.metric strong{display:block;font-size:14px;margin-top:2px}.metric:nth-child(1){background:var(--green)}.metric:nth-child(2){background:var(--yellow)}.metric:nth-child(3){background:var(--peach)}
+    table{width:100%;border-collapse:collapse;font-size:10px}th,td{text-align:left;padding:7px 8px;border-top:1px solid #efefed;vertical-align:top}th{border-top:0;color:var(--muted);font-size:9px}.nowrap{white-space:nowrap}.empty{padding:12px 14px;background:var(--grey);font-size:10px;color:var(--muted)}.provenance{display:grid;grid-template-columns:140px 1fr;gap:0}.provenance div{padding:7px 9px;border-top:1px solid #efefed;font-size:10px}.provenance div:nth-child(odd){font-weight:700;color:#555}.literature a{color:#245b77;text-decoration:none}.error{padding:12px 14px;color:#9b2c22;background:#ffe2dd;border-radius:9px;font-size:11px}.fresh{display:flex;align-items:center;gap:9px;background:var(--grey)}.dot{width:8px;height:8px;border-radius:50%;background:#4f9f68;flex:0 0 auto}
+    @media(max-width:680px){.kpis{grid-template-columns:1fr 1fr}.op,.data-row{grid-template-columns:1fr .75fr}.op .targetcell,.op .gapcell,.hide-mobile{display:none}.barrow{grid-template-columns:minmax(85px,1fr) minmax(90px,2fr) 52px}.split{grid-template-columns:1fr}.provenance{grid-template-columns:105px 1fr}th,td{padding:6px 5px}}
   </style>
 </head>
-<body>
-  <main id="root"></main>
-  <script>
-    const DATA_URL='../data/published_state.json';
-    const REFRESH_MS=30000;
-    const params=new URLSearchParams(location.search);
-    const requestedOperation=params.get('operation');
-    const requestedView=params.get('view')||'overview';
-    const requestedIds=(params.get('ids')||'').split(',').map(v=>v.trim()).filter(Boolean);
-    let lastPublication=null;
-
-    const pct=(v,d=2)=>`${Number(v).toFixed(d)}%`;
-    const pp=(v,d=2)=>`${Number(v)>=0?'+':''}${Number(v).toFixed(d)} pp`;
-    const when=v=>new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC',timeZoneName:'short'}).format(new Date(v));
-    const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const root=document.getElementById('root');
-
-    function renderOperation(o,data){
-      root.innerHTML=`<section class="module pad">
-        <div class="row">
-          <div><div class="eyebrow">Current KPI</div><div class="sub">${esc(o.short_name)} · ${esc(o.title)}</div></div>
-          <span class="status ${esc(o.status)}">${esc(String(o.status).replaceAll('_',' '))}</span>
-        </div>
-        <div class="kpis">
-          <div class="kpi"><span class="label">Fidelity</span><strong>${pct(o.fidelity_pct)} ± ${pct(o.fidelity_uncertainty_pp)}</strong></div>
-          <div class="kpi"><span class="label">Target fidelity</span><strong>${pct(o.target_fidelity_pct)}</strong></div>
-          <div class="kpi"><span class="label">Gap to target</span><strong class="${o.gap_to_target_pp>=0?'good':'bad'}">${pp(o.gap_to_target_pp)}</strong></div>
-          <div class="kpi"><span class="label">Data date</span><strong>${esc(o.live_at)}</strong></div>
-        </div>
-        <div class="sub">Updated ${esc(when(data.generated_at))} · ${esc(data.publication_id)}</div>
-      </section>`;
-    }
-
-    function selectOperations(data){
-      if(!requestedIds.length) return data.operations;
-      const wanted=new Set(requestedIds);
-      return data.operations.filter(o=>wanted.has(o.id));
-    }
-
-    function renderOverview(data){
-      const operations=selectOperations(data);
-      root.innerHTML=`<section class="module">
-        <div class="overview-head row">
-          <div><div class="eyebrow">Operations overview</div><div class="sub">Live fidelity layer · ${operations.length} operations</div></div>
-          <div class="tiny muted">${esc(data.publication_id)}</div>
-        </div>
-        <div class="ops">${operations.map(o=>`<div class="op">
-          <div><strong>${esc(o.short_name)}</strong><small>${esc(o.title)}</small></div>
-          <div><strong>${pct(o.fidelity_pct)}</strong><small>Fidelity</small></div>
-          <div class="targetcell"><strong>${pct(o.target_fidelity_pct)}</strong><small>Target</small></div>
-          <div class="gapcell"><strong class="${o.gap_to_target_pp>=0?'good':'bad'}">${pp(o.gap_to_target_pp)}</strong><small>Gap</small></div>
-        </div>`).join('')}</div>
-      </section>`;
-    }
-
-    function renderFreshness(data){
-      root.innerHTML=`<section class="module pad fresh"><i class="dot"></i><div><div class="label">Last updated</div><div><strong>${esc(when(data.generated_at))}</strong></div><div class="sub">${esc(data.publication_id)}</div></div></section>`;
-    }
-
-    function render(data){
-      if(requestedOperation){
-        const op=data.operations.find(o=>o.id===requestedOperation);
-        if(!op) throw new Error(`Unknown operation: ${requestedOperation}`);
-        renderOperation(op,data);
-      }else if(requestedView==='freshness'){
-        renderFreshness(data);
-      }else{
-        renderOverview(data);
-      }
-      lastPublication=data.publication_id;
-    }
-
-    async function load(){
-      try{
-        const response=await fetch(`${DATA_URL}?t=${Date.now()}`,{cache:'no-store'});
-        if(!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data=await response.json();
-        if(!data||data.schema_version!=='error-budgets-publication-1.0'||!Array.isArray(data.operations)) throw new Error('Invalid publication contract');
-        if(data.publication_id!==lastPublication) render(data);
-      }catch(error){
-        if(!lastPublication) root.innerHTML=`<div class="error">Unable to load live Error Budgets module: ${esc(error.message)}</div>`;
-      }
-    }
-
-    load();
-    setInterval(load,REFRESH_MS);
-  </script>
-</body>
-</html>
+<body><main id="root"></main>
+<script>
+const PUBLIC_URL='../data/published_state.json';
+const DETAIL_URL='../data/published_detail_state.json';
+const REFRESH_MS=30000;
+const params=new URLSearchParams(location.search);
+const requestedOperation=params.get('operation');
+const requestedView=params.get('view')||(requestedOperation?'kpi':'overview');
+const requestedIds=(params.get('ids')||'').split(',').map(v=>v.trim()).filter(Boolean);
+const root=document.getElementById('root');
+let lastSignature='';
+const pct=(v,d=2)=>`${Number(v).toFixed(d)}%`;
+const pp=(v,d=2)=>`${Number(v)>=0?'+':''}${Number(v).toFixed(d)} pp`;
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const label=v=>esc(String(v??'').replaceAll('_',' '));
+const when=v=>new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC',timeZoneName:'short'}).format(new Date(v));
+const head=(title,sub='')=>`<div class="head"><div><div class="eyebrow">${esc(title)}</div>${sub?`<div class="sub">${esc(sub)}</div>`:''}</div></div>`;
+function selectOps(data){if(!requestedIds.length)return data.operations;const wanted=new Set(requestedIds);return data.operations.filter(o=>wanted.has(o.id))}
+function opById(data,id){const o=data.operations.find(x=>x.id===id);if(!o)throw new Error(`Unknown operation: ${id}`);return o}
+function status(o){return `<span class="status ${esc(o.status)}">${label(o.status)}</span>`}
+function renderOverview(pub){const ops=selectOps(pub);root.innerHTML=`<section class="module">${head('Operations overview',`Live fidelity layer · ${ops.length} operations`)}<div class="ops">${ops.map(o=>`<div class="op"><div><strong>${esc(o.short_name)}</strong><small>${esc(o.title)}</small></div><div><strong>${pct(o.fidelity_pct)}</strong><small>Fidelity</small></div><div class="targetcell"><strong>${pct(o.target_fidelity_pct)}</strong><small>Target</small></div><div class="gapcell"><strong class="${o.gap_to_target_pp>=0?'good':'bad'}">${pp(o.gap_to_target_pp)}</strong><small>Gap</small></div></div>`).join('')}</div></section>`}
+function renderKpi(pub){const o=opById(pub,requestedOperation);root.innerHTML=`<section class="module pad"><div class="row"><div><div class="eyebrow">Current KPI</div><div class="sub">${esc(o.short_name)} · ${esc(o.title)}</div></div>${status(o)}</div><div class="kpis"><div class="kpi"><span class="label">Fidelity</span><strong>${pct(o.fidelity_pct)} ± ${pct(o.fidelity_uncertainty_pp)}</strong></div><div class="kpi"><span class="label">Target fidelity</span><strong>${pct(o.target_fidelity_pct)}</strong></div><div class="kpi"><span class="label">Gap to target</span><strong class="${o.gap_to_target_pp>=0?'good':'bad'}">${pp(o.gap_to_target_pp)}</strong></div><div class="kpi"><span class="label">Data date</span><strong>${esc(o.live_at)}</strong></div></div><div class="sub">Updated ${esc(when(pub.generated_at))} · ${esc(pub.publication_id)}</div></section>`}
+function renderFreshness(pub){root.innerHTML=`<section class="module pad fresh"><i class="dot"></i><div><div class="label">Last updated</div><strong>${esc(when(pub.generated_at))}</strong><div class="sub">${esc(pub.publication_id)}</div></div></section>`}
+function bars(title,sub,rows,value,max,formatter,bad=false){const m=max||Math.max(...rows.map(value),1);root.innerHTML=`<section class="module">${head(title,sub)}<div class="chart">${rows.map(r=>`<div class="barrow"><div class="barlabel" title="${esc(r.name)}">${esc(r.name)}</div><div class="track"><div class="fill ${bad?'badfill':''}" style="width:${Math.max(1,Math.min(100,100*value(r)/m))}%"></div></div><div class="barvalue">${formatter(value(r))}</div>${r.note?`<div class="bar-note">${esc(r.note)}</div>`:''}</div>`).join('')}</div></section>`}
+function renderFidelity(pub){const ops=selectOps(pub).map(o=>({name:o.short_name,value:o.fidelity_pct}));bars('Fidelity comparison','Operations · higher is better',ops,r=>r.value,100,v=>pct(v))}
+function renderGaps(pub,topOnly=false){let ops=selectOps(pub).map(o=>({name:o.short_name,value:Math.abs(Math.min(0,o.gap_to_target_pp)),signed:o.gap_to_target_pp})).sort((a,b)=>b.value-a.value);if(topOnly)ops=ops.slice(0,5);const m=Math.max(...ops.map(o=>o.value),1);bars(topOnly?'Top gaps':'Gap to target',topOnly?'Largest deficits to target':'Absolute deficit magnitude · pp',ops,r=>r.value,m,(v)=>`${v.toFixed(2)} pp`,true)}
+function renderStatusList(pub,wantedStatus,title,sub){const ops=selectOps(pub).filter(o=>wantedStatus.has(o.status));root.innerHTML=`<section class="module">${head(title,sub)}${ops.length?`<div class="rows">${ops.map(o=>`<div class="data-row"><div><strong>${esc(o.short_name)}</strong><small>${esc(o.title)}</small></div><div>${status(o)}</div><div class="hide-mobile"><strong>${pct(o.fidelity_pct)}</strong><small>Fidelity</small></div><div class="hide-mobile"><strong class="bad">${pp(o.gap_to_target_pp)}</strong><small>Gap</small></div></div>`).join('')}</div>`:`<div class="empty">No operations in this state.</div>`}</section>`}
+function renderDecomposition(detail){const o=opById(detail,requestedOperation);const rows=o.contributors.map(c=>({name:c.name,value:c.impact_error_pp})).sort((a,b)=>b.value-a.value);bars(`${o.short_name} · Error budget decomposition`,'Contributor infidelity · pp',rows,r=>r.value,Math.max(...rows.map(r=>r.value),1),v=>`${v.toFixed(3)} pp`,true)}
+function renderAttribution(detail){const o=opById(detail,requestedOperation);root.innerHTML=`<section class="module">${head(`${o.short_name} · Attribution`,'Known vs unknown share of total infidelity')}<div class="pad split"><div class="metric"><span class="label">Known attribution</span><strong>${pct(o.known_attribution_pct,0)}</strong></div><div class="metric"><span class="label">Unknown / unassigned</span><strong>${pct(o.unknown_attribution_pct,0)}</strong></div><div class="metric"><span class="label">Total infidelity</span><strong>${pp(o.total_infidelity_pp).replace('+','')}</strong></div></div></section>`}
+function renderContributors(detail){const o=opById(detail,requestedOperation);root.innerHTML=`<section class="module">${head(`${o.short_name} · Contributors`,'Evidence, confidence and ownership')}<div style="overflow-x:auto"><table><thead><tr><th>Contributor</th><th>Impact</th><th>Share</th><th>Evidence</th><th>Confidence</th><th>Owner</th></tr></thead><tbody>${o.contributors.map(c=>`<tr><td>${esc(c.name)}</td><td class="nowrap">${c.impact_error_pp.toFixed(3)} pp</td><td>${pct(c.share_pct,0)}</td><td>${esc(c.evidence)}</td><td><span class="chip ${esc(c.confidence)}">${esc(c.confidence)}</span></td><td>${esc(c.owner||'—')}</td></tr>`).join('')}</tbody></table></div></section>`}
+function renderGapAction(detail){const o=opById(detail,requestedOperation);const actions=detail.actions.filter(a=>a.operation_id===o.id);root.innerHTML=`<section class="module">${head(`${o.short_name} · Gap & actions`,`Current gap ${pp(o.gap_to_target_pp)} · ${actions.length} canonical action(s)`)}${actions.length?`<div style="overflow-x:auto"><table><thead><tr><th>Action</th><th>Priority</th><th>State</th><th>Owner</th></tr></thead><tbody>${actions.map(a=>`<tr><td>${esc(a.action)}</td><td><span class="chip ${esc(a.priority)}">${esc(a.priority)}</span></td><td><span class="chip ${esc(a.state)}">${label(a.state)}</span></td><td>${esc(a.owner)}</td></tr>`).join('')}</tbody></table></div>`:`<div class="empty">No canonical action registered yet for this operation. Gap data is live from Git.</div>`}</section>`}
+function renderActions(detail){const actions=detail.actions;root.innerHTML=`<section class="module">${head('Priority actions',`${actions.length} canonical synthetic action(s)`)}${actions.length?`<div style="overflow-x:auto"><table><thead><tr><th>Operation</th><th>Action</th><th>Priority</th><th>State</th><th>Owner</th></tr></thead><tbody>${actions.map(a=>{const o=detail.operations.find(o=>o.id===a.operation_id);return `<tr><td>${esc(o?.short_name||a.operation_id)}</td><td>${esc(a.action)}</td><td><span class="chip ${esc(a.priority)}">${esc(a.priority)}</span></td><td><span class="chip ${esc(a.state)}">${label(a.state)}</span></td><td>${esc(a.owner)}</td></tr>`}).join('')}</tbody></table></div>`:`<div class="empty">No canonical actions registered.</div>`}</section>`}
+function renderProvenance(detail){const o=opById(detail,requestedOperation);const pairs=[['Protocol',o.protocol],['Benchmark',o.benchmark],['Metric convention',o.metric_convention],['Measurement chain',o.measurement_chain],['Operating point',o.operating_point],['Snapshot',o.snapshot_id],['Data date',o.live_at],['Target note',o.target_note]];root.innerHTML=`<section class="module">${head(`${o.short_name} · Technical provenance`,'Published allowlisted technical context')}<div class="provenance">${pairs.map(([k,v])=>`<div>${esc(k)}</div><div>${esc(v)}</div>`).join('')}</div></section>`}
+function renderLiterature(detail){const o=opById(detail,requestedOperation);root.innerHTML=`<section class="module literature">${head(`${o.short_name} · Literature anchors`,`${o.literature_anchors.length} reference(s)`)}${o.literature_anchors.length?`<div style="overflow-x:auto"><table><thead><tr><th>Reference</th><th>Use in prototype</th></tr></thead><tbody>${o.literature_anchors.map(a=>`<tr><td><a href="${esc(a.url)}" target="_blank" rel="noreferrer">${esc(a.title)}</a></td><td>${esc(a.note)}</td></tr>`).join('')}</tbody></table></div>`:`<div class="empty">No literature anchors published.</div>`}</section>`}
+function renderHistory(detail){const o=opById(detail,requestedOperation);const rows=[...o.history].reverse();root.innerHTML=`<section class="module">${head(`${o.short_name} · History`,'Recent validated Git-backed snapshots')}${rows.length?`<div style="overflow-x:auto"><table><thead><tr><th>Date</th><th>Fidelity</th><th>Uncertainty</th><th>Status</th><th>Snapshot</th><th>Commit</th></tr></thead><tbody>${rows.map(h=>`<tr><td>${esc(h.date)}</td><td>${pct(h.fidelity_pct)}</td><td>${pct(h.uncertainty_pp)}</td><td><span class="status ${esc(h.status)}">${label(h.status)}</span></td><td>${esc(h.snapshot||'—')}</td><td>${esc(h.short_commit||'—')}</td></tr>`).join('')}</tbody></table></div>`:`<div class="empty">No validated history published yet.</div>`}</section>`}
+function render(pub,detail){if(requestedOperation){if(requestedView==='kpi'||requestedView==='overview')return renderKpi(pub);if(requestedView==='decomposition')return renderDecomposition(detail);if(requestedView==='attribution')return renderAttribution(detail);if(requestedView==='contributors')return renderContributors(detail);if(requestedView==='gap-action'||requestedView==='actions')return renderGapAction(detail);if(requestedView==='provenance')return renderProvenance(detail);if(requestedView==='literature')return renderLiterature(detail);if(requestedView==='history')return renderHistory(detail);throw new Error(`Unknown operation view: ${requestedView}`)}
+if(requestedView==='freshness')return renderFreshness(pub);if(requestedView==='overview')return renderOverview(pub);if(requestedView==='fidelity')return renderFidelity(pub);if(requestedView==='gaps')return renderGaps(pub,false);if(requestedView==='top-gaps')return renderGaps(pub,true);if(requestedView==='actions')return renderActions(detail);if(requestedView==='at-risk')return renderStatusList(pub,new Set(['AT_RISK','OFF_TRACK']),'Operations at risk','Operations requiring attention');if(requestedView==='on-track')return renderStatusList(pub,new Set(['ON_TRACK']),'Operations on track','Operations currently meeting status criteria');throw new Error(`Unknown global view: ${requestedView}`)}
+async function getJson(url){const r=await fetch(`${url}?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error(`${url} HTTP ${r.status}`);return r.json()}
+async function load(){try{const [pub,detail]=await Promise.all([getJson(PUBLIC_URL),getJson(DETAIL_URL)]);if(pub.schema_version!=='error-budgets-publication-1.0'||!Array.isArray(pub.operations))throw new Error('Invalid public publication contract');if(detail.schema_version!=='error-budgets-detail-publication-1.0'||!Array.isArray(detail.operations)||!Array.isArray(detail.actions))throw new Error('Invalid detail publication contract');const sig=`${pub.publication_id}|${detail.generated_at}`;if(sig!==lastSignature){render(pub,detail);lastSignature=sig}}catch(error){if(!lastSignature)root.innerHTML=`<div class="error">Unable to load Error Budgets live module: ${esc(error.message)}</div>`}}
+load();setInterval(load,REFRESH_MS);
+</script></body></html>
