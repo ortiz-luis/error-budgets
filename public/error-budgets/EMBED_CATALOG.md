@@ -35,3 +35,7 @@ Backward compatibility: `?operation=<id>` defaults to the Current KPI view.
 ## Canonical action coverage
 
 V1 contains three synthetic canonical action records for `2q`. Other operations intentionally render `No canonical action registered yet for this operation` in the Gap & actions module until an action is explicitly registered in Git. This is preferable to inventing action data in the presentation layer.
+
+## Deployment contract
+
+The Pages workflow must build both `published_state.json` and `published_detail_state.json`, reject source metadata leakage, and verify that `/embed/` does not reference the internal `dashboard.json` artifact.
